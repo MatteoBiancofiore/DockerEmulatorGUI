@@ -52,10 +52,9 @@ This guide covers the requirements and installation steps needed to run the Dock
 * **pillow** — Loads icons for GUI
 * **sv_ttk** — Provides prettier themes for Tkinter
 
-Install the Python libraries with pip:
-
 
 ## Install Docker on Linux (Debian/Ubuntu-based)
+> **Note:** Skip this passage if you have Docker & Docker-compose installed
 
 ### Step 1: Add Docker's official GPG key
 
@@ -112,15 +111,15 @@ pip3 install --upgrade sv_ttk
 ## Permissions
 
 In order to connect with Docker, the user must have the proper permissions: running the GUI with `sudo`  does not work,
-because the user must be in the 'docker' group to allow a proper connection to the Docker daemon.
+because the user must be in the '`docker`' group to allow a proper connection to the Docker daemon.
 
 ```bash
 sudo usermod -aG docker $USER
 ```
 
-> **Note:** You must **reboot** in order to make this change permanent.
+`IMPORTANT` You must **reboot** in order to make this change permanent.
 
-After this, you can check with:
+After this, you can use docker cmds without root permissions, try:
 
 ```bash
 docker ps

@@ -27,83 +27,101 @@ It is not strictly required, but recommended.
 
 ---
 
-# Requirements
+# Docker Emulator GUI - Setup Guide
+
+This guide covers the requirements and installation steps needed to run the Docker Emulator GUI on a Debian/Ubuntu-based system.
+
+---
 
 ## System Requirements
-- **Docker**  
-- **Docker Compose plugin**
 
-## Python
-- **python3** — Interpreter for Python  
-- **python3-tk** — For the graphical environment (Tkinter)  
-- **python3-pip** — Tool to install Python libraries  
+### 1. Docker
 
-## Python Libraries
-- **docker** — Used to communicate with the Docker daemon  
-- **pillow** — Used to load icons  
-- **sv_ttk** — Used for prettier themes
+* Docker Engine
+* Docker Compose plugin
+
+### 2. Python
+
+* **python3** — Python interpreter
+* **python3-tk** — For the graphical environment (Tkinter)
+* **python3-pip** — Tool to install Python libraries
+
+### 3. Python Libraries
+
+* **docker** — Communicates with Docker daemon
+* **pillow** — Loads icons for GUI
+* **sv_ttk** — Provides prettier themes for Tkinter
+
+Install the Python libraries with pip:
 
 
-# Here's a brief guide on how to install Docker on Linux(Debian based) (from official site!)
+## Install Docker on Linux (Debian/Ubuntu-based)
 
-# Add Docker's official GPG key:
+### Step 1: Add Docker's official GPG key
+
 ```bash
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install ca-certificates curl -y
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
+```
 
-# Add the repository to Apt sources:
+### Step 2: Add the Docker repository
+
+```bash
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-
-# install Docker packages 
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-# you can check its status afterward with systemctl, it should be active and running
+### Step 3: Install Docker packages
+
 ```bash
-sudo systemctl status docker    
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 ```
 
-### GUI installation
-
-# Note: having Docker installed is crucial for the gui!
-# update repositories' dependancies and upgrade packages, 
+### Step 4: Check Docker status
 
 ```bash
-sudo apt update && sudo apt upgrade -y
-sudo apt install python3 python3-tk python3-pip
-
-# Install (or update) required libraries
-
-pip3 install --upgrade docker
-pip3 install --upgrade pillow
-pip3 install --upgrade sv_ttk
-```
-# In order to connect with Docker, the user must have the proper permissions.
-# Running the GUI with sudo (root permissions) does not work, because the user must be in the 'docker' group to allow a proper connection to the Docker daemon.
-```bash
-sudo usermod -aG docker $USER 
-```
-# Reboot your computer in order to make it permanent
-
-# Make sure you have the image specified in the docker file! (e.g. unibo-dtn-base-image) 
-# You can either pull it or build it from a Dockerfile
-```bash
-docker pull registry.gitlab.com/unibo-dtn-docker-environment/dtn-image/unibo-dtn-base-image
+sudo systemctl status docker
 ```
 
-# Execute
-### Execute
+It should show **active (running)**.
+
+---
+
+## Permissions
+
+In order to connect with Docker, the user must have the proper permissions: running the GUI with `sudo`  does not work,
+because the user must be in the 'docker' group to allow a proper connection to the Docker daemon.
+
 ```bash
-cd /path/to/gui/folder
+sudo usermod -aG docker $USER
+```
+
+> **Note:** You must **reboot** in order to make this change permanent.
+
+After this, you can check with:
+
+```bash
+docker ps
+```
+
+---
+
+## Running the GUI
+Once the environment is ready:
+```bash
 python3 gui.py
 ```
+
+
+
+
+
 
 ### Windows installation
 

@@ -31,14 +31,19 @@ It is not strictly required, but recommended.
 
 docker, docker compose plugin
 
-python3         # interpreter for python language,
-python3-tk      # for the graphic environment 
-python3-pip     # a tool used to install python libraries
+python3       
+python3-tk   
+python3-pip    
 
 Libraries:
-docker          # used to communicate with Docker daemon
-pillow          # used to load icons
-sv_ttk          # used for prettier theme
+docker        
+pillow       
+sv_ttk          
+
+# python3 is interpreter for python language, python3-tk represents the graphic environment while python3-pip is a tool used to install python libraries
+# docker library is crucial to communicate with Docker daemon, pillow is used to manage icons while sv_ttk makes theme prettier 
+
+
 
 # Here's a brief guide on how to install Docker on Linux(Debian based) (from official site!)
 

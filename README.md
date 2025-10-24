@@ -27,22 +27,21 @@ It is not strictly required, but recommended.
 
 ---
 
-## Requirements
+# Requirements
 
-docker, docker compose plugin
+## System Requirements
+- **Docker**  
+- **Docker Compose plugin**
 
-python3       
-python3-tk   
-python3-pip    
+## Python
+- **python3** — Interpreter for Python  
+- **python3-tk** — For the graphical environment (Tkinter)  
+- **python3-pip** — Tool to install Python libraries  
 
-Libraries:
-docker        
-pillow       
-sv_ttk          
-
-# python3 is interpreter for python language, python3-tk represents the graphic environment while python3-pip is a tool used to install python libraries
-# docker library is crucial to communicate with Docker daemon, pillow is used to manage icons while sv_ttk makes theme prettier 
-
+## Python Libraries
+- **docker** — Used to communicate with the Docker daemon  
+- **pillow** — Used to load icons  
+- **sv_ttk** — Used for prettier themes
 
 
 # Here's a brief guide on how to install Docker on Linux(Debian based) (from official site!)

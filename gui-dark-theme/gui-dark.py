@@ -1,6 +1,5 @@
-import os
 import tkinter as tk
-import docker, threading , ipaddress, shlex, shutil, sys, platform, json, subprocess
+import docker, threading , ipaddress, shlex, shutil, sys, platform, json, subprocess, os
 from tkinter import ttk, messagebox, scrolledtext, filedialog
 from PIL import Image, ImageTk
 from pathlib import Path
@@ -70,29 +69,51 @@ def load_image(path, size=(20, 20)):
         return None
 
 def exec_compose(compose_file):
-   
+    
+    cmd = None
+    
+    # Check if the standalone 'docker-compose' (v1) is available
     if shutil.which("docker-compose"):
         cmd = ["docker-compose", "-f", str(compose_file), "up", "-d"]
+    # If not, check if 'docker' (which might include the 'compose' plugin, v2) is available
     elif shutil.which("docker"):
         try:
+            # Try to run 'docker compose --version' to see if the v2 plugin is installed
             subprocess.run(["docker", "compose", "--version"], check=True, capture_output=True)
             cmd = ["docker", "compose", "-f", str(compose_file), "up", "-d"]
         except (subprocess.CalledProcessError, FileNotFoundError):
-            cmd = None
-    else:
+            # 'docker' executable exists, but the 'compose' plugin is missing
+            pass # cmd remains None
+            
+    # If cmd is still None after all checks, show an error
+    if cmd is None:
         messagebox.showerror(
             "Critical Error",
-            "Docker Compose not found.\n"
+            "Docker Compose not found.\n\n"
+            "This program requires either the standalone 'docker-compose' (v1) "
+            "or the 'docker compose' plugin (v2) to be installed and available in your PATH."
         )
         return False
 
     try:
-        # The command is idempotent; running it multiple times will not create duplicate containers nor overwrite the existing ones.
+        # The 'up -d' command is idempotent; running it multiple times will not create 
+        # duplicate containers but will update existing ones if the configuration changed.
         subprocess.run(cmd, check=True, capture_output=True, text=True, encoding='utf-8')
     
     except subprocess.CalledProcessError as e:
-        error_message = e.stderr or e.stdout or "Compose cmd has failed."
-        messagebox.showerror("Error", f"{error_message}try another one")
+        # Using the improved error message we discussed, translated into English
+        error_message = (
+            "An error occurred while running 'docker compose up'.\n\n"
+            "This could be due to one of the following:\n\n"
+            "1. Invalid Compose File: The selected file contains syntax errors, "
+            "references an invalid path, or is unreadable.\n\n"
+            "2. Image Not Found: A base image specified in the file (or its Dockerfile) "
+            "could not be found or pulled.\n\n"
+            "Please check the file's syntax and ensure all required Docker images "
+            "are correct and accessible."
+        )
+        messagebox.showerror("Docker Compose Error", error_message)
+        
         root.destroy()
         sys.exit()
         return False
@@ -247,7 +268,7 @@ def restart_container(row_id):
     threading.Thread(target=do_restart).start()
 
 def start_all_containers():
-    containers = get_project_containers()
+    containers = get_project_containers(project_name)
     for container in containers:
         if container.status != "running":
             start_container(container.name)
@@ -308,17 +329,21 @@ def open_terminal(row_id):
     system_platform = platform.system()
     escaped_name = shlex.quote(container.name)
     docker_cmd = f"docker exec -it {escaped_name} bash"
+    title = f"{container.name} terminal"
 
     if system_platform == "Windows":
         # /c to run and terminate the process that start cmd.exe, /k to run and keep open the new cmd.exe
         terminal_cmd = ["cmd.exe", "/c", "start", f"{container.name} terminal",
-                        "cmd.exe", "/k", f"{docker_cmd}"]
+                        "cmd.exe", "/c", f"{docker_cmd}"]
         
     elif system_platform == "Darwin":  # macOS
         # -e to execute AppleScript command to open Terminal and run docker exec, tell application "Terminal" to do script "command" (MAC specific)
         # \\033]0; sets the terminal title, \\007 ends the title command
-        terminal_cmd = ["osascript", "-e",
-                        f'tell application "Terminal" to do script "echo -ne \'\\033]0;{container.name} terminal\\007\'; {docker_cmd}"']
+        script = (
+            f'tell application "Terminal" to do script '
+            f'"echo -ne \'\\033]0;{title}\\007\'; {docker_cmd}; exit"'
+        )
+        terminal_cmd = ["osascript", "-e", script]
         
     else:  # Linux
         terminal_emulators = [
@@ -330,30 +355,30 @@ def open_terminal(row_id):
             "x-terminal-emulator",
         ]
     
+    found_term = False
     for term in terminal_emulators:
         path = shutil.which(term)
         if path:
-            title = f"{container.name} terminal"
-            docker_cmd_safe = f"{docker_cmd}; exec bash"
-
+            
             if "gnome-terminal" in os.path.realpath(path):
-                terminal_cmd = [path, "--title", title, "--", "bash", "-c", docker_cmd_safe]
-                print(f"Debug: Terminal used: {term}")
+                terminal_cmd = [path, "--title", title, "--", "bash", "-c", docker_cmd]
 
             elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
-                terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd_safe}'"]
-                print(f"Debug: Terminal used: {term}")
+                terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd}'"]
 
             elif term == "lxterminal":
-                terminal_cmd = [path, "-T", title, "-e", f"bash -c '{docker_cmd_safe}'"]
-                print(f"Debug: Terminal used: {term}")
+                terminal_cmd = [path, "-T", title, "-e", f"bash -c '{docker_cmd}'"]
 
             else:  # fallback
-                terminal_cmd = [path, "-e", f"bash -c '{docker_cmd_safe}'"]
-                print(f"Debug: Terminal used: {term}")
+                terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
+                
+            
+            found_term = True
+            print(f"Debug: Terminal used: {term} (path: {path})")
 
             break
-    else:
+    
+    if not found_term:
         messagebox.showerror(
             "Error",
             "No compatible terminal found.\n"
@@ -363,7 +388,7 @@ def open_terminal(row_id):
         return
 
     try:
-        subprocess.Popen(terminal_cmd, stderr=subprocess.DEVNULL)
+        subprocess.Popen(terminal_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open terminal:\n{e}")
     
@@ -875,7 +900,7 @@ def choose_project_popup():
         flag = False
 
         # --- Linux ---
-        if sys.platform.startswith("Linux"):
+        if platform.system().startswith("Linux"):
             flag = True
             if shutil.which("zenity"):
                 result = subprocess.run(
@@ -891,7 +916,7 @@ def choose_project_popup():
                 filepath = result.stdout.strip() or None
 
         # --- macOS ---
-        elif sys.platform == "Darwin":
+        elif platform.system() == "Darwin":
             flag = True
             if shutil.which("osascript"):
                 # AppleScript to open file select on macOS

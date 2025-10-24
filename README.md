@@ -93,6 +93,22 @@ It should show **active (running)**.
 
 ---
 
+## GUI installation
+
+> **Note:** Having Docker installed is crucial for the gui!
+
+```bash
+# Update repositories' dependancies and upgrade packages
+sudo apt update && sudo apt upgrade -y
+sudo apt install python3 python3-tk python3-pip
+
+
+# Install (or update) required libraries
+pip3 install --upgrade docker
+pip3 install --upgrade pillow
+pip3 install --upgrade sv_ttk
+```
+
 ## Permissions
 
 In order to connect with Docker, the user must have the proper permissions: running the GUI with `sudo`  does not work,
@@ -115,6 +131,7 @@ docker ps
 ## Running the GUI
 Once the environment is ready:
 ```bash
+# In gui.py folder
 python3 gui.py
 ```
 

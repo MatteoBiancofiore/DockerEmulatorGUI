@@ -35,6 +35,7 @@ CONFIG_DIR = get_config_dir()
 RECENT_PROJECTS_FILE = CONFIG_DIR / "recent_projects.json"
 
 open_windows = {}  # keep track of open container windows
+open_terminals = {} # keep track of open terminals
 
 # class to lock operations on containers
 class OperationLock:
@@ -146,13 +147,30 @@ def refresh_containers():
         if name in open_windows:
             try:
                 open_windows[name].force_close()
-            except (tk.TclError, KeyError): pass
+            except (tk.TclError, KeyError): 
+                pass
+
+        if name in open_terminals:
+            proc = open_terminals.pop(c.name, None)
+            if proc and proc.poll() is None:
+                try:
+                    proc.terminate() 
+                except Exception: pass    
+
+            
 
     for c in docker_containers:
         if c.status != "running" and c.name in open_windows:
             try:
                 open_windows[c.name].force_close()
             except (tk.TclError, KeyError): pass
+
+        if c.status != "running" and c.name in open_terminals:
+             processo = open_terminals.pop(c.name, None)
+             if processo and processo.poll() is None:
+                 try:
+                     processo.terminate()
+                 except Exception: pass
        
         if not lock_manager.is_locked(c.id):
             if c.status == "running":
@@ -325,27 +343,43 @@ def open_terminal(row_id):
     if container.status != "running":
         messagebox.showinfo("Notice", f"{container.name} is not running!") 
         return
+    
+    if container.name in open_terminals:
+        proc = open_terminals[container.name]
+        
+        if proc.poll() is None:
+            messagebox.showwarning(
+                "Already opened",
+                f"A terminal for '{container.name}' is already opened.\n\n",
+                parent=root
+            )
+            return 
+        else:
+            del open_terminals[container.name]
 
     system_platform = platform.system()
     escaped_name = shlex.quote(container.name)
     docker_cmd = f"docker exec -it {escaped_name} bash"
     title = f"{container.name} terminal"
 
+
     if system_platform == "Windows":
-        # /c to run and terminate the process that start cmd.exe, /k to run and keep open the new cmd.exe
-        terminal_cmd = ["cmd.exe", "/c", "start", f"{container.name} terminal",
+        terminal_cmd = ["cmd.exe", "/c", "start", "/wait", f"{container.name} terminal",
                         "cmd.exe", "/c", f"{docker_cmd}"]
         
-    elif system_platform == "Darwin":  # macOS
-        # -e to execute AppleScript command to open Terminal and run docker exec, tell application "Terminal" to do script "command" (MAC specific)
-        # \\033]0; sets the terminal title, \\007 ends the title command
+    elif system_platform == "Darwin": # macOS
         script = (
-            f'tell application "Terminal" to do script '
-            f'"echo -ne \'\\033]0;{title}\\007\'; {docker_cmd}; exit"'
+            f'tell application "Terminal"\n'
+            f'    activate\n'
+            f'    set newTab to do script "echo -ne \'\\033]0;{title}\\007\'; {docker_cmd}; exit"\n'
+            f'    repeat while busy of newTab is true\n'
+            f'        delay 0.5\n'
+            f'    end repeat\n'
+            f'end tell'
         )
         terminal_cmd = ["osascript", "-e", script]
         
-    else:  # Linux
+    else: # Linux
         terminal_emulators = [
             "gnome-terminal",
             "konsole",
@@ -355,40 +389,40 @@ def open_terminal(row_id):
             "x-terminal-emulator",
         ]
     
-    found_term = False
-    for term in terminal_emulators:
-        path = shutil.which(term)
-        if path:
-            
-            if "gnome-terminal" in os.path.realpath(path):
-                terminal_cmd = [path, "--title", title, "--", "bash", "-c", docker_cmd]
-
-            elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
-                terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd}'"]
-
-            elif term == "lxterminal":
-                terminal_cmd = [path, "-T", title, "-e", f"bash -c '{docker_cmd}'"]
-
-            else:  # fallback
-                terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
+        found_term = False
+        for term in terminal_emulators:
+            path = shutil.which(term)
+            if path:
                 
-            
-            found_term = True
-            print(f"Debug: Terminal used: {term} (path: {path})")
+                if "gnome-terminal" in os.path.realpath(path):
+                    terminal_cmd = [path, "--wait", "--title", title, "--", "bash", "-c", docker_cmd]
 
-            break
-    
-    if not found_term:
-        messagebox.showerror(
-            "Error",
-            "No compatible terminal found.\n"
-            "Please install one of:\n"
-            "- gnome-terminal\n- konsole\n- xfce4-terminal\n- mate-terminal\n- lxterminal"
-        )
-        return
+                elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
+                    terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd}'"]
+
+                elif term == "lxterminal":
+                    terminal_cmd = [path, "-T", title, "-e", f"bash -c '{docker_cmd}'"]
+
+                else: # fallback
+                    terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
+                    
+                
+                found_term = True
+                print(f"Debug: Terminal used: {term} (path: {path})")
+                break
+        
+        if not found_term:
+            messagebox.showerror(
+                "Error",
+                "No compatible terminal found.\n"
+                "Please install one of:\n"
+                "- gnome-terminal\n- konsole\n- xfce4-terminal\n- mate-terminal\n- lxterminal"
+            )
+            return
 
     try:
-        subprocess.Popen(terminal_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        proc = subprocess.Popen(terminal_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        open_terminals[container.name] = proc
     except Exception as e:
         messagebox.showerror("Error", f"Failed to open terminal:\n{e}")
     
@@ -419,7 +453,7 @@ def set_buttons_state(state):
 
 def reset_operation_flag():
     if not lock_manager.has_active_locks():
-        set_buttons_state("normal") # Riabilita i pulsanti
+        set_buttons_state("normal")
 
 # Handle click
 def on_tree_select(event):

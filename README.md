@@ -27,79 +27,110 @@ It is not strictly required, but recommended.
 
 ---
 
-## Requirements
+# Docker Emulator GUI - Setup Guide
 
-docker, docker compose plugin
+This guide covers the requirements and installation steps needed to run the Docker Emulator GUI on a Debian/Ubuntu-based system.
 
-python3         # interpreter for python language,
-python3-tk      # for the graphic environment 
-python3-pip     # a tool used to install python libraries
+---
 
-Libraries:
-docker          # used to communicate with Docker daemon
-pillow          # used to load icons
-sv_ttk          # used for prettier theme
+## System Requirements
 
-# Here's a brief guide on how to install Docker on Linux(Debian based) (from official site!)
+### 1. Docker
 
-# Add Docker's official GPG key:
+* Docker Engine
+* Docker Compose plugin
+
+### 2. Python
+
+* **python3** — Python interpreter
+* **python3-tk** — For the graphical environment (Tkinter)
+* **python3-pip** — Tool to install Python libraries
+
+### 3. Python Libraries
+
+* **docker** — Communicates with Docker daemon
+* **pillow** — Loads icons for GUI
+* **sv_ttk** — Provides prettier themes for Tkinter
+
+
+## Install Docker on Linux (Debian/Ubuntu-based)
+> **Note:** Skip this passage if you have Docker & Docker-compose installed
+
+### Step 1: Add Docker's official GPG key
+
 ```bash
 sudo apt-get update
-sudo apt-get install ca-certificates curl
+sudo apt-get install ca-certificates curl -y
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
+```
 
-# Add the repository to Apt sources:
+### Step 2: Add the Docker repository
+
+```bash
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-
-# install Docker packages 
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-# you can check its status afterward with systemctl, it should be active and running
+### Step 3: Install Docker packages
+
 ```bash
-sudo systemctl status docker    
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 ```
 
-### GUI installation
-
-##Linux
-
-# Note: having Docker installed is crucial for the gui!
-# update repositories' dependancies and upgrade packages, 
+### Step 4: Check Docker status
 
 ```bash
+sudo systemctl status docker
+```
+
+It should show **active (running)**.
+
+---
+
+## GUI installation
+
+> **Note:** Having Docker installed is crucial for the gui!
+
+```bash
+# Update repositories' dependancies and upgrade packages
 sudo apt update && sudo apt upgrade -y
 sudo apt install python3 python3-tk python3-pip
 
-# Install (or update) required libraries
 
+# Install (or update) required libraries
 pip3 install --upgrade docker
 pip3 install --upgrade pillow
 pip3 install --upgrade sv_ttk
 ```
-# 
-# Running the GUI with sudo (root permissions) does not work, because the user must be in the 'docker' group to allow a proper connection to the Docker daemon.
+
+## Permissions
+
+In order to connect with Docker, the user must have the proper permissions: running the GUI with `sudo`  does not work,
+because the user must be in the '`docker`' group to allow a proper connection to the Docker daemon.
+
 ```bash
-sudo usermod -aG docker $USER 
+sudo usermod -aG docker $USER
 ```
 
+`IMPORTANT` You must **reboot** in order to make this change permanent.
 
-# Make sure you have the image specified in the docker file! (e.g. unibo-dtn-base-image) 
-# You can either pull it or build it from a Dockerfile
+After this, you can use docker cmds without root permissions, try:
+
 ```bash
-docker pull registry.gitlab.com/unibo-dtn-docker-environment/dtn-image/unibo-dtn-base-image
+docker ps
 ```
 
-# Execute
-### Execute
+---
+
+## Running the GUI
+Once the environment is ready:
 ```bash
-cd /path/to/gui/folder
+# In gui.py folder
 python3 gui.py
 ```
 

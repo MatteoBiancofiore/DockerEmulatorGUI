@@ -81,12 +81,12 @@ pip3 install --upgrade docker
 pip3 install --upgrade pillow
 pip3 install --upgrade sv_ttk
 ```
-# In order to connect with Docker, the user must have the proper permissions.
+# 
 # Running the GUI with sudo (root permissions) does not work, because the user must be in the 'docker' group to allow a proper connection to the Docker daemon.
 ```bash
 sudo usermod -aG docker $USER 
 ```
-# Reboot your computer in order to make it permanent
+
 
 # Make sure you have the image specified in the docker file! (e.g. unibo-dtn-base-image) 
 # You can either pull it or build it from a Dockerfile

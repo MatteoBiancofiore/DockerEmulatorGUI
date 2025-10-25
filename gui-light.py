@@ -354,37 +354,37 @@ def open_terminal(row_id):
             "x-terminal-emulator",
         ]
     
-    found_term = False
-    for term in terminal_emulators:
-        path = shutil.which(term)
-        if path:
-            
-            if "gnome-terminal" in os.path.realpath(path):
-                terminal_cmd = [path, "--title", title, "--", "bash", "-c", docker_cmd]
-
-            elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
-                terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd}'"]
-
-            elif term == "lxterminal":
-                terminal_cmd = [path, "-T", title, "-e", f"bash -c '{docker_cmd}'"]
-
-            else:  # fallback
-                terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
+        found_term = False
+        for term in terminal_emulators:
+            path = shutil.which(term)
+            if path:
                 
-            
-            found_term = True
-            print(f"Debug: Terminal used: {term} (path: {path})")
+                if "gnome-terminal" in os.path.realpath(path):
+                    terminal_cmd = [path, "--title", title, "--", "bash", "-c", docker_cmd]
 
-            break
-    
-    if not found_term:
-        messagebox.showerror(
-            "Error",
-            "No compatible terminal found.\n"
-            "Please install one of:\n"
-            "- gnome-terminal\n- konsole\n- xfce4-terminal\n- mate-terminal\n- lxterminal"
-        )
-        return
+                elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
+                    terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd}'"]
+
+                elif term == "lxterminal":
+                    terminal_cmd = [path, "-T", title, "-e", f"bash -c '{docker_cmd}'"]
+
+                else:  # fallback
+                    terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
+                    
+                
+                found_term = True
+                print(f"Debug: Terminal used: {term} (path: {path})")
+
+                break
+        
+        if not found_term:
+            messagebox.showerror(
+                "Error",
+                "No compatible terminal found.\n"
+                "Please install one of:\n"
+                "- gnome-terminal\n- konsole\n- xfce4-terminal\n- mate-terminal\n- lxterminal"
+            )
+            return
 
     try:
         subprocess.Popen(terminal_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

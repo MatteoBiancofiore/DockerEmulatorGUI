@@ -68,6 +68,8 @@ sudo systemctl status docker
 
 ### GUI installation
 
+##Linux
+
 # Note: having Docker installed is crucial for the gui!
 # update repositories' dependancies and upgrade packages, 
 
@@ -101,7 +103,7 @@ cd /path/to/gui/folder
 python3 gui.py
 ```
 
-### Windows installation
+## Windows
 
 Download Python 3 from python.org
 `IMPORTANT` Make sure to check “Add Python to PATH” during installation.
@@ -123,14 +125,14 @@ python gui.py
 Download Python 3 from python.org
  or install via Homebrew:
 ```shell
-brew install python
+brew install python3-tk@3.14
 ```
-
-Pip – Included with Python 3 (verify with python3 -m pip --version).
+Tkinter – Included with Python 3 (verify with python3 -m tkinter --version).
+Pip     – Included with Python 3 (verify with python3 -m pip --version).
 
 Python Libraries – Install the required dependencies:
 ```shell
-pip3 install docker Pillow sv_ttk
+pip3 install docker pillow sv_ttk
 ```
 
 ### Execute

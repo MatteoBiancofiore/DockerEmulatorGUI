@@ -367,17 +367,27 @@ def open_terminal(row_id):
                         "cmd.exe", "/c", f"{docker_cmd}"]
         
     elif system_platform == "Darwin": # macOS
-        script = (
-            f'tell application "Terminal"\n'
-            f'    activate\n'
-            f'    set newTab to do script "echo -ne \'\\033]0;{title}\\007\'; {docker_cmd}; exit"\n'
-            f'    repeat while busy of newTab is true\n'
-            f'        delay 0.5\n'
-            f'    end repeat\n'
-            f'end tell'
-        )
-        terminal_cmd = ["osascript", "-e", script]
-        
+
+        do_script_line = f'set newTab to do script "echo -ne \\"\\\\033]0;{container.name} terminal\\\\007\\"; {docker_cmd}"'
+
+        script_lines = [
+            'tell application "Terminal"',
+            '    activate',
+            f'    {do_script_line}',
+            '    repeat while busy of newTab is true',
+            '        delay 0.5',
+            '    end repeat',
+            '    try',
+            '        set w to first window whose tabs contains newTab',
+            '        close w',
+            '    end try',
+            'end tell'
+        ]
+
+        terminal_cmd = ["osascript"]
+        for line in script_lines:
+            terminal_cmd += ["-e", line]
+
     else: # Linux
         terminal_emulators = [
             "gnome-terminal",
@@ -725,7 +735,7 @@ def open_node_window(container_name):
 
     limit_spinbox.bind("<KeyRelease>", set_config_dirty)
     limit_spinbox.bind("<ButtonRelease>", set_config_dirty)
-
+    
     #  --  Ping section  --
 
     ping_frame = ttk.LabelFrame(win, text=" Network Test ", padding=(10,10))

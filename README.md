@@ -1,9 +1,11 @@
 # Note: still under development !!!
-# DockerEmulatorGUI
-simple python gui to configure channel emulators (tc qdisc) on Docker containers asd
+> `gui.py` might cause crash due to its theme on some systems. If you experience crashes try to use `gui-fixed.py` which uses a lighter theme 
 
-`gui.py` is a graphical interface designed to simplify the management of Docker containers on the host machine.  
-Its purpose is to increase **transparency** and avoid complex command-line syntax.
+
+# DockerEmulatorGUI
+Lightweight Python-based GUI for configuring network channel emulators
+(using tc qdisc) and simplify the management of Docker containers on the host machine.
+It aims to enhance **transparency** and reduce the complexity of command-line configuration.
 
 ---
 
@@ -12,7 +14,7 @@ Its purpose is to increase **transparency** and avoid complex command-line synta
 - Start or stop containers on the host machine.
 - Select a container and modify the parameters of its channel emulator using `tc qdisc` command.
 - Perform connectivity tests using the integrated `ping` command.
-- Open a terminal collected to the specified node. This is a feature intended for low-level management purposes only
+- Open a terminal collected to the specified node, (intended for low-level management purposes only)
 - Simple and intuitive interface, designed to be easy to use.
 
 ---
@@ -29,7 +31,9 @@ It is not strictly required, but recommended.
 
 # Docker Emulator GUI - Setup Guide
 
-This guide covers the requirements and installation steps needed to run the Docker Emulator GUI on a Debian/Ubuntu-based system.
+This guide covers the requirements and installation steps for running the Docker 
+Emulator GUI on Windows, macOS and Debian/Ubuntu-based systems.
+It is also compatible with different Linux distributions.
 
 ---
 
@@ -52,8 +56,9 @@ This guide covers the requirements and installation steps needed to run the Dock
 * **pillow** — Loads icons for GUI
 * **sv_ttk** — Provides prettier themes for Tkinter
 
+# Linux installation (Debian/Ubuntu-based)
 
-## Install Docker on Linux (Debian/Ubuntu-based)
+## Install Docker
 > **Note:** Skip this passage if you have Docker & Docker-compose installed
 
 ### Step 1: Add Docker's official GPG key
@@ -88,13 +93,13 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo systemctl status docker
 ```
 
-It should show **active (running)**.
+It should display **active (running)**.
 
 ---
 
 ## GUI installation
 
-> **Note:** Having Docker installed is crucial for the gui!
+> **Note:** Having Docker installed (and running) is crucial for the gui!
 
 ```bash
 # Update repositories' dependancies and upgrade packages
@@ -114,10 +119,11 @@ In order to connect with Docker, the user must have the proper permissions: runn
 because the user must be in the '`docker`' group to allow a proper connection to the Docker daemon.
 
 ```bash
+# Add $USER to group docker
 sudo usermod -aG docker $USER
 ```
 
-`IMPORTANT` You must **reboot** in order to make this change permanent.
+`IMPORTANT` You must **reboot your pc** in order to make this change permanent.
 
 After this, you can use docker cmds without root permissions, try:
 
@@ -134,14 +140,18 @@ Once the environment is ready:
 python3 gui.py
 ```
 
-## Windows
+# Windows installation
 
 Download Python 3 from python.org
 `IMPORTANT` Make sure to check “Add Python to PATH” during installation.
-pip – Included with Python 3 (verify with python -m pip --version in command shell CMD ).
 
+Tkinter – Included with Python 3 (verify with python3 -m tkinter --version).
+pip     – Included with Python 3 (verify with python -m pip --version in command shell CMD ).
+
+
+Python Libraries – Install the required dependencies:
 ```shell
-pip3 install docker Pillow sv_ttk
+pip3 install docker pillow sv_ttk
 ```
 
 ### Execute
@@ -150,7 +160,6 @@ cd /path/to/gui/folder
 python gui.py
 ```
 
-
 ### MacOS installation
 
 Download Python 3 from python.org
@@ -158,8 +167,10 @@ Download Python 3 from python.org
 ```shell
 brew install python3-tk@3.14
 ```
+
 Tkinter – Included with Python 3 (verify with python3 -m tkinter --version).
-Pip     – Included with Python 3 (verify with python3 -m pip --version).
+
+pip     – Included with Python 3 (verify with python3 -m pip --version).
 
 Python Libraries – Install the required dependencies:
 ```shell
@@ -171,3 +182,4 @@ pip3 install docker pillow sv_ttk
 cd /path/to/gui/folder
 python3 gui.py
 ```
+

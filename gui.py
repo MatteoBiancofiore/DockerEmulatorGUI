@@ -3,6 +3,7 @@ import docker, threading , ipaddress, shlex, shutil, sys, platform, json, subpro
 from tkinter import ttk, messagebox, scrolledtext, filedialog
 from PIL import Image, ImageTk
 from pathlib import Path
+import sv_ttk
 
 # Determine the base directory depending on whether the script is frozen or not
 if getattr(sys, 'frozen', False):
@@ -20,7 +21,7 @@ def get_config_dir():
         # macOS: /Users/<username>/Library/Application Support/<AppName>
         config_path = Path.home() / "Library" / "Application Support" / APP_NAME
     else:
-        # Linux (and others): /home/<username>/.config/<AppName> (standard XDG)
+        # Linux (e altri): /home/<username>/.config/<AppName> (standard XDG)
         config_path = Path.home() / ".config" / APP_NAME
     
     # Create directory (if it does not exist)
@@ -290,12 +291,11 @@ def start_all_containers():
         if container.status != "running":
             start_container(container.name)
 
-def stop_all_containers():
+def stop_all_containers(on_done=None):
 
     set_buttons_state("disabled") 
-
     containers_to_stop = []
-    for row_id in tree.get_children():  # row_id is container's name
+    for row_id in tree.get_children():
         current_status = tree.item(row_id, "values")[0]
         if "running" in current_status:
             tree.item(row_id, values=("exiting...",))
@@ -329,6 +329,9 @@ def stop_all_containers():
 
         root.after(0, reset_operation_flag)
         root.after(0, refresh_containers)
+
+        if on_done:
+            root.after(0, on_done) # invoke callback when all containers are stopped
 
     threading.Thread(target=parallel_stop_manager, daemon=True).start()
 
@@ -387,7 +390,7 @@ def open_terminal(row_id):
         terminal_cmd = ["osascript"]
         for line in script_lines:
             terminal_cmd += ["-e", line]
-
+        
     else: # Linux
         terminal_emulators = [
             "gnome-terminal",
@@ -396,6 +399,7 @@ def open_terminal(row_id):
             "mate-terminal",
             "lxterminal",
             "x-terminal-emulator",
+            "terminator"
         ]
     
         found_term = False
@@ -403,7 +407,10 @@ def open_terminal(row_id):
             path = shutil.which(term)
             if path:
                 
-                if "gnome-terminal" in os.path.realpath(path):
+                if term == "terminator":
+                    terminal_cmd = [path, "--title", title, "-x", f"bash -c '{docker_cmd}'"]
+
+                elif term == "gnome-terminal":
                     terminal_cmd = [path, "--wait", "--title", title, "--", "bash", "-c", docker_cmd]
 
                 elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
@@ -417,7 +424,7 @@ def open_terminal(row_id):
                     
                 
                 found_term = True
-                print(f"Debug: Terminal used: {term} (path: {path})")
+                print(f"Debug: used {term} (path: {path})")
                 break
         
         if not found_term:
@@ -425,7 +432,7 @@ def open_terminal(row_id):
                 "Error",
                 "No compatible terminal found.\n"
                 "Please install one of:\n"
-                "- gnome-terminal\n- konsole\n- xfce4-terminal\n- mate-terminal\n- lxterminal"
+                "- terminator\n- gnome-terminal\n- konsole\n- xfce4-terminal\n- mate-terminal\n- lxterminal"
             )
             return
 
@@ -462,7 +469,7 @@ def set_buttons_state(state):
 
 def reset_operation_flag():
     if not lock_manager.has_active_locks():
-        set_buttons_state("normal") # Riabilita i pulsanti
+        set_buttons_state("normal")
 
 # Handle click
 def on_tree_select(event):
@@ -573,11 +580,11 @@ def open_node_window(container_name):
     config = load_configs(container_name)
 
     win = tk.Toplevel(root)
-
-    win.geometry("1100x700")
-    win.wm_minsize(1100, 350)
+    win.geometry("1150x700")
+    win.wm_minsize(1150, 350)
     win.title(f"{container_name}")
     win.bind("<Button-1>", clear_focus)
+
 
     def on_close():
         
@@ -592,13 +599,13 @@ def open_node_window(container_name):
 
         del open_windows[container_name]
         win.destroy()
-    
-    def force_close():
 
+    def force_close():
+        
         config_status[0] = True 
         on_close() 
 
-    win.force_close = force_close
+    win.force_close = force_close       
 
     def set_config_dirty(*args):
 
@@ -615,7 +622,7 @@ def open_node_window(container_name):
         title_frame, 
         text="Close",  
         command=on_close,
-        style="Danger.TButton"
+        style="Accent.TButton"
     ).pack(padx=10, side="right")
 
     tk.Label(title_frame, text=f"Container: {container_name}", font=("Arial", 20, "bold")).pack(padx=10, side="left")
@@ -623,7 +630,8 @@ def open_node_window(container_name):
 
     subtitle_frame = tk.Frame(win)
     tk.Label(subtitle_frame, text=f"Control window for channel emulator", font=("Arial", 16)).pack(padx=10, side="left")
-    subtitle_frame.pack(fill="x",padx=5, pady=2)
+    subtitle_frame.pack(fill="x",padx=5, pady=5)
+
 
 
     #  -- tc section --
@@ -654,13 +662,13 @@ def open_node_window(container_name):
 
     # Delay
     tk.Label(tc_frame, text="Delay (ms):", font=("Arial", 13)).grid(row=1, column=3, padx=10, pady=5)
-    delay_spinbox = ttk.Spinbox(tc_frame, from_=0, to=999999, increment=10, font=("Arial", 12), width=8)
+    delay_spinbox = ttk.Spinbox(tc_frame, from_=0, to=999999, increment=10, font=("Arial", 12), width=5)
     delay_spinbox.set(config.get("delay", "0"))
     delay_spinbox.grid(row=2, column=3, padx=10)
 
     # Loss
     tk.Label(tc_frame, text="Loss (%):", font=("Arial", 13)).grid(row=1, column=4, padx=10, pady=5)
-    loss_spinbox = ttk.Spinbox(tc_frame, from_=0, to=100, increment=5, font=("Arial", 12), width=8)
+    loss_spinbox = ttk.Spinbox(tc_frame, from_=0, to=100, increment=5, font=("Arial", 12), width=5)
     loss_spinbox.set(config.get("loss", "0"))
     loss_spinbox.grid(row=2, column=4, padx=10)
 
@@ -673,7 +681,7 @@ def open_node_window(container_name):
         increment=0.1,   # 100 Kbps step
         font=("Arial", 12),
         format="%.1f",
-        width=15
+        width=10
     )
     band_spinbox.set(config.get("band", "1.0"))
     band_spinbox.grid(row=2, column=5, padx=10)
@@ -686,7 +694,7 @@ def open_node_window(container_name):
         to=100.0,
         increment=10,
         font=("Arial", 12),
-        width=12
+        width=5
     )
     limit_spinbox.set(config.get("limit", "10"))
     limit_spinbox.grid(row=2, column=6, padx=10)
@@ -696,7 +704,7 @@ def open_node_window(container_name):
         tc_frame, 
         text="Apply",
         command=lambda: do_tc(container_name, interface_var.get(), delay_spinbox, loss_spinbox, band_spinbox, limit_spinbox, output_box, win),
-        style="Primary.TButton"
+        style="Accent.TButton"
     )
     apply_btn.grid(row=2, column=7, padx=10, pady=5)
 
@@ -705,7 +713,7 @@ def open_node_window(container_name):
         tc_frame, 
         text="Save configs",
         width=12,
-        style="Success.TButton",
+        style="Accent.TButton",
         command=lambda: save_configs(
             container_name, 
             interface_var.get(), 
@@ -735,21 +743,29 @@ def open_node_window(container_name):
 
     limit_spinbox.bind("<KeyRelease>", set_config_dirty)
     limit_spinbox.bind("<ButtonRelease>", set_config_dirty)
-    
+
     #  --  Ping section  --
 
     ping_frame = ttk.LabelFrame(win, text=" Network Test ", padding=(10,10))
     ping_frame.pack(pady=10)
 
     tk.Label(ping_frame, text="IP to ping:", font=("Arial", 13)).grid(row=0, column=0, padx=10, pady=5)
-    ipaddr_entry = tk.Entry(ping_frame, width=16 ,font=("Arial", 13))
+    ipaddr_entry = tk.Entry(
+        ping_frame, 
+        width=16 ,
+        font=("Arial", 13),
+        highlightthickness=1,         
+        highlightbackground="#888888", 
+        highlightcolor="#0078D7"   
+        )
+    
     ipaddr_entry.insert(0, "") 
     ipaddr_entry.grid(row=1, column=0, padx=10)
 
     ping_btn = ttk.Button(
         ping_frame, 
         text="Ping", 
-        style="Primary.TButton",
+        style="Accent.TButton",
         command=lambda: do_ping(container_name, ipaddr_entry, output_box, win, ping_btn)
     )
     ping_btn.grid(row=1, column=2, padx=10, pady=5)
@@ -758,7 +774,6 @@ def open_node_window(container_name):
 
     # Toggle button
     toggle_btn = ttk.Button(win, text="Hide Console", command=lambda: toggle_console())
-    toggle_btn.config(style="Normal.TButton")
     toggle_btn.pack()
 
     # Frame console
@@ -773,7 +788,6 @@ def open_node_window(container_name):
     clear_btn = ttk.Button(
         label_frame, 
         text="Clear console",
-        style="Normal.TButton", 
         command=lambda: clear_console(output_box))
     
     clear_btn.pack(side="right")
@@ -944,7 +958,7 @@ def choose_project_popup():
         flag = False
 
         # --- Linux ---
-        if sys.platform.startswith("linux"):
+        if platform.system().startswith("Linux"):
             flag = True
             if shutil.which("zenity"):
                 result = subprocess.run(
@@ -960,7 +974,7 @@ def choose_project_popup():
                 filepath = result.stdout.strip() or None
 
         # --- macOS ---
-        elif sys.platform == "darwin":
+        elif platform.system() == "Darwin":
             flag = True
             if shutil.which("osascript"):
                 # AppleScript to open file select on macOS
@@ -988,7 +1002,6 @@ def choose_project_popup():
             else:
                 messagebox.showerror("Error", "Select a docker compose project\n(file .yml or .yaml)", parent=popup)    
         
-
     def exit_popup():
         popup.destroy()
         root.destroy()
@@ -1022,16 +1035,36 @@ def choose_project_popup():
 
     return selected_path["path"]
 
+def show_exiting_popup():
+    popup = tk.Toplevel(root)
+    popup.title("Exiting...")
+    popup.geometry("250x80")
+    popup.resizable(False, False)
+    popup.grab_set() # can't interact with main window as long as popup win is open
+    tk.Label(popup, text="Stopping containers...\nPlease wait", padx=20, pady=20).pack()
+
+    return popup
+
 def on_main_window_close():
     # 
     if lock_manager.has_active_locks():
-        messagebox.showwarning(
-            "Operation running",
-            "Wait for the operations to finish before closing",
-            parent=root
-        )
+        if root.winfo_exists():  # check if window is still open
+            messagebox.showwarning(
+                "Operation running",
+                "Wait for the operations to finish before closing",
+                parent=root
+            )
     else:
-        root.destroy()
+        if messagebox.askokcancel("Quit", "Are you sure you want to exit?", parent=root):
+            popup = show_exiting_popup()
+            
+            def finish_close():
+                if popup.winfo_exists():
+                    popup.destroy()
+                root.destroy()
+            
+            stop_all_containers(on_done=finish_close)
+            
 
 # GUI
 root = tk.Tk()
@@ -1055,17 +1088,14 @@ if not compose_file:
 
 compose_file = Path(compose_file)
 project_name = compose_file.parent.name.lower()
-
-try:
-    client = docker.from_env()
-except Exception:
-    messagebox.showError("Error", "Can't connect to Docker daemon.\nUser is not a part of 'docker' group")
+client = docker.from_env()
 
 if exec_compose(compose_file) is True:
     save_recent_project(compose_file)
 
-#sv_ttk.set_theme("dark")
+sv_ttk.set_theme("dark")
 root.title("DTN & Emulator Control GUI")
+
 
 # Treeview for containers
 tree = ttk.Treeview(root, columns=("Status",), show="tree headings")
@@ -1076,71 +1106,9 @@ root.bind("<Button-1>", close_context_menu)
 root.option_add("*TCombobox*Listbox.font", ("Arial", 12))
 style = ttk.Style()
 
-# general style as it seems that Windows and macOS style overrides ttk style
-if platform.system() != "Linux":
-    style.theme_use('clam')
-
 style.configure("Treeview", font=("Arial", 20)) 
 style.configure("Treeview", rowheight=50)
 style.configure("Treeview.Heading", font=("Arial", 18), padding=5)
-
-# Styles for buttons
-style.configure(
-    "Danger.TButton",
-    font=("Arial", 11),
-    background="#C40C0C", 
-    foreground="white"
-)
-
-style.map(
-    "Danger.TButton",
-    background=[
-        ('active', '#FF6969'),  # Mouse over
-        ('pressed', '#990000') 
-    ]
-)
-
-style.configure(
-    "Success.TButton",
-    font=("Arial", 11),
-    background="#28a745",
-    foreground="white"
-)
-
-style.map(
-    "Success.TButton",
-    background=[
-        ('active', '#5cb85c'),
-        ('pressed', '#218838')
-    ]
-)
-
-style.configure(
-    "Primary.TButton",
-    font=("Arial", 11),
-    background="#007bff",
-    foreground="white"
-)
-style.map(
-    "Primary.TButton",
-    background=[
-        ('active', '#008eff'),
-        ('pressed', '#0069d9')
-    ]
-)
-style.configure(
-    "Normal.TButton",
-    font=("Arial", 11),
-    background="#f0f0f0",
-    foreground="black"
-)
-style.map(
-    "Normal.TButton",
-    background=[
-        ('active', '#e0e0e0'),
-        ('pressed', '#d0d0d0')
-    ]
-)
 
 tree.heading("#0", text="Container")
 tree.heading("Status", text="Status")
@@ -1187,6 +1155,6 @@ context_menu = tk.Menu(root, tearoff=0)
 # call function when user press "X" to close main window
 root.protocol("WM_DELETE_WINDOW", on_main_window_close)
 
+refresh_containers()
 root.deiconify()
-
 root.mainloop()

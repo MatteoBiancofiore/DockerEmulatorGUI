@@ -219,6 +219,10 @@ You should see version numbers for both commands if the installation was success
 
 ### Step 4: Install required libraries
 ```powershell
+# Navigate to gui folder
+cd /path/to/gui.py
+
+# Install requirements
 pip3 install -r requirements.txt
 ```
 

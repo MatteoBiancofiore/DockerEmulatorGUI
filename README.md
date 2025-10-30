@@ -217,6 +217,11 @@ pip --version
 ```
 You should see version numbers for both commands if the installation was successful.
 
+If for some reason pip is not installed run:
+```powershell
+python -m ensurepip --upgrade
+```
+
 ### Step 4: Install required libraries
 ```powershell
 # Navigate to gui folder
@@ -232,6 +237,7 @@ Once the environment is ready:
 cd /path/to/gui/folder
 python gui.py
 ```
+
 
 
 

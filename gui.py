@@ -393,13 +393,13 @@ def open_terminal(row_id):
         
     else: # Linux
         terminal_emulators = [
+            "terminator"
             "gnome-terminal",
             "konsole",
             "xfce4-terminal",
             "mate-terminal",
             "lxterminal",
             "x-terminal-emulator",
-            "terminator"
         ]
     
         found_term = False
@@ -518,19 +518,24 @@ def open_container_window(container_name):
 
 def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_spinbox, limit_spinbox, win, config_status, save_btn):
 
-    config = {
-        "interface": interface,
+    iface_name = interface.split(" - ")[0]
+
+    all_configs = load_configs(container_name)
+
+    config_for_iface = {
         "delay": delay_spinbox.get(),
         "loss": loss_spinbox.get(),
         "band": band_spinbox.get(),
         "limit": limit_spinbox.get()
     }
 
+    all_configs[iface_name] = config_for_iface
+
     config_file = CONFIG_DIR / f"{container_name}_config.json"
 
     try:
         with open(config_file, "w") as f:
-            json.dump(config, f, indent=2)
+            json.dump(all_configs, f, indent=2)
         
         config_status[0] = True
         save_btn.config(text="Saved")
@@ -559,7 +564,7 @@ def load_configs(container_name):
         except json.JSONDecodeError: # if corrupted return default values
             pass
 
-    return {"interface": "eth0", "delay": 0, "loss": 0, "band": 1.0, "limit": 10}
+    return {}
 
 def open_node_window(container_name):
 
@@ -577,7 +582,7 @@ def open_node_window(container_name):
         win.focus_force()
         return
     
-    config = load_configs(container_name)
+    all_container_configs = load_configs(container_name)
 
     win = tk.Toplevel(root)
     win.geometry("1150x700")
@@ -644,32 +649,23 @@ def open_node_window(container_name):
     interfaces = get_interfaces(container_name)
     interface_var = tk.StringVar()
     interface_combo = ttk.Combobox(tc_frame, textvariable=interface_var, values=interfaces, state="readonly", width=20, font=("Arial", 12))
+    
+    # Starts from 1st if
     if interfaces:
-
-        saved_iface_name = config.get("interface") 
-        
-        target_index = 0
-        
-        if saved_iface_name:
-            for i, iface_string in enumerate(interfaces):
-                if iface_string.startswith(saved_iface_name):
-                    target_index = i
-                    break 
-
-        interface_combo.current(target_index)
+        interface_combo.current(0)
 
     interface_combo.grid(row=2, column=0, padx=10)
 
     # Delay
     tk.Label(tc_frame, text="Delay (ms):", font=("Arial", 13)).grid(row=1, column=3, padx=10, pady=5)
     delay_spinbox = ttk.Spinbox(tc_frame, from_=0, to=999999, increment=10, font=("Arial", 12), width=5)
-    delay_spinbox.set(config.get("delay", "0"))
+    delay_spinbox.set("0")
     delay_spinbox.grid(row=2, column=3, padx=10)
 
     # Loss
     tk.Label(tc_frame, text="Loss (%):", font=("Arial", 13)).grid(row=1, column=4, padx=10, pady=5)
     loss_spinbox = ttk.Spinbox(tc_frame, from_=0, to=100, increment=5, font=("Arial", 12), width=5)
-    loss_spinbox.set(config.get("loss", "0"))
+    loss_spinbox.set("0")
     loss_spinbox.grid(row=2, column=4, padx=10)
 
     # Bandwidth
@@ -683,7 +679,7 @@ def open_node_window(container_name):
         format="%.1f",
         width=10
     )
-    band_spinbox.set(config.get("band", "1.0"))
+    band_spinbox.set("1.0")
     band_spinbox.grid(row=2, column=5, padx=10)
 
     # Packet limit
@@ -696,7 +692,7 @@ def open_node_window(container_name):
         font=("Arial", 12),
         width=5
     )
-    limit_spinbox.set(config.get("limit", "10"))
+    limit_spinbox.set("10")
     limit_spinbox.grid(row=2, column=6, padx=10)
 
     # Apply button for tc qdisc
@@ -727,11 +723,40 @@ def open_node_window(container_name):
             )
     )
     save_btn.grid(row=2, column=8, padx=10, pady=10)
+
+    # Update spinbox based on the interface
+    def update_spinboxes_for_interface(event=None):
+        iface_name = interface_var.get().split(" - ")[0]
+        
+        iface_config = all_container_configs.get(iface_name)
+
+        if iface_config:
+            delay_spinbox.set(iface_config.get("delay", "0"))
+            loss_spinbox.set(iface_config.get("loss", "0"))
+            band_spinbox.set(iface_config.get("band", "1.0"))
+            limit_spinbox.set(iface_config.get("limit", "10"))
+        else: 
+            # Use default values
+            delay_spinbox.set("0")
+            loss_spinbox.set("0")
+            band_spinbox.set("1.0")
+            limit_spinbox.set("10")
+        
+        config_status[0] = True
+        try:
+            if save_btn.winfo_exists():
+                save_btn.config(text="Save configs")
+        except (tk.TclError, NameError):
+            pass
+            
+    interface_combo.bind("<<ComboboxSelected>>", update_spinboxes_for_interface)
+    
+    # Load parameters for first interface
+    if interfaces:
+        update_spinboxes_for_interface()
     
     # save every change on parameters
 
-    interface_var.trace_add("write", set_config_dirty)
-    
     delay_spinbox.bind("<KeyRelease>", set_config_dirty)
     delay_spinbox.bind("<ButtonRelease>", set_config_dirty) 
    

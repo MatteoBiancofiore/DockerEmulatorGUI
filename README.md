@@ -201,12 +201,12 @@ You should see version numbers for both commands if the installation was success
 
 Go to the Python official website:
 👉 [https://www.python.org/downloads/](https://www.python.org/downloads/)
-and click on Windows Installer(64 bit)
+and download latest version, Windows Installer(64 bit)
 
 ### Step 2: Install Python
 
 1. Open `python-xx.exe`
-2. `IMPORTANT` Make sure to check “Add Python to PATH” during installation.
+2. `IMPORTANT`<u>Make sure to check “Add Python to PATH” during installation</u>
 3. Follow displayed instructions
 
 ### Step 3: Verify Python Installation

@@ -656,6 +656,8 @@ def open_node_window(container_name):
 
     interface_combo.grid(row=2, column=0, padx=10)
 
+    current_iface_tracker = [interfaces[0].split(" - ")[0] if interfaces else None]
+
     # Delay
     tk.Label(tc_frame, text="Delay (ms):", font=("Arial", 13)).grid(row=1, column=3, padx=10, pady=5)
     delay_spinbox = ttk.Spinbox(tc_frame, from_=0, to=999999, increment=10, font=("Arial", 12), width=5)
@@ -726,9 +728,20 @@ def open_node_window(container_name):
 
     # Update spinbox based on the interface
     def update_spinboxes_for_interface(event=None):
-        iface_name = interface_var.get().split(" - ")[0]
+
+        # if a new interface is selected all parameters are saved even before close
+        new_iface_name = interface_var.get().split(" - ")[0]
+        old_iface_name = current_iface_tracker[0]
+
+        if old_iface_name and old_iface_name != new_iface_name:
+            all_container_configs[old_iface_name] = {
+                "delay": delay_spinbox.get(),
+                "loss": loss_spinbox.get(),
+                "band": band_spinbox.get(),
+                "limit": limit_spinbox.get()
+            }
         
-        iface_config = all_container_configs.get(iface_name)
+        iface_config = all_container_configs.get(new_iface_name)
 
         if iface_config:
             delay_spinbox.set(iface_config.get("delay", "0"))
@@ -742,6 +755,8 @@ def open_node_window(container_name):
             band_spinbox.set("1.0")
             limit_spinbox.set("10")
         
+        current_iface_tracker[0] = new_iface_name
+
         config_status[0] = True
         try:
             if save_btn.winfo_exists():
@@ -1093,6 +1108,7 @@ def on_main_window_close():
 
 # GUI
 root = tk.Tk()
+
 root.withdraw()  # hide main window until project is selected
 
 #Icons
@@ -1120,6 +1136,8 @@ if exec_compose(compose_file) is True:
 
 sv_ttk.set_theme("dark")
 root.title("DTN & Emulator Control GUI")
+
+
 
 
 # Treeview for containers

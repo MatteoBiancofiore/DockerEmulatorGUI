@@ -515,10 +515,11 @@ def open_container_window(container_name):
     else: 
         open_node_window(container_name)
 
-def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_spinbox, limit_spinbox, win, config_status, save_btn):
+def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_spinbox, limit_spinbox, win, config_status, save_btn, all_configs_data):
 
-    config = {
-        "interface": interface,
+    iface_name = interface.split(" - ")[0]
+
+    all_configs_data[iface_name] = {
         "delay": delay_spinbox.get(),
         "loss": loss_spinbox.get(),
         "band": band_spinbox.get(),
@@ -529,7 +530,7 @@ def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_sp
 
     try:
         with open(config_file, "w") as f:
-            json.dump(config, f, indent=2)
+            json.dump(all_configs_data, f, indent=2)
         
         config_status[0] = True
         save_btn.config(text="Saved")
@@ -558,7 +559,7 @@ def load_configs(container_name):
         except json.JSONDecodeError: # if corrupted return default values
             pass
 
-    return {"interface": "eth0", "delay": 0, "loss": 0, "band": 1.0, "limit": 10}
+    return {}
 
 def open_node_window(container_name):
 
@@ -576,14 +577,64 @@ def open_node_window(container_name):
         win.focus_force()
         return
     
-    config = load_configs(container_name)
+    all_container_configs = load_configs(container_name)
 
     win = tk.Toplevel(root)
-
     win.geometry("1100x700")
     win.wm_minsize(1100, 350)
     win.title(f"{container_name}")
     win.bind("<Button-1>", clear_focus)
+
+    current_iface_tracker = [None]
+
+    def update_spinboxes_for_interface(event=None):
+        # 1. New if
+        new_iface_name = interface_var.get().split(" - ")[0]
+        
+        # 2. old if
+        old_iface_name = current_iface_tracker[0]
+
+        # 3. If interface is changing
+        if old_iface_name and old_iface_name != new_iface_name:
+            
+            # 3a. Get new spinbox values
+            current_values_in_spinbox = {
+                "delay": delay_spinbox.get(),
+                "loss": loss_spinbox.get(),
+                "band": band_spinbox.get(),
+                "limit": limit_spinbox.get()
+            }
+            
+            # 3b. Get old spinbox values (or default)
+            stored_values_for_old_iface = all_container_configs.get(old_iface_name, {
+                "delay": "0",
+                "loss": "0",
+                "band": "1.0",
+                "limit": "10"
+            })
+
+            # 3c. If they differ, configs are dirty
+            if current_values_in_spinbox != stored_values_for_old_iface:
+                all_container_configs[old_iface_name] = current_values_in_spinbox
+                set_config_dirty()
+        
+        # Load values for new interface
+        iface_config = all_container_configs.get(new_iface_name)
+
+        if iface_config:
+            delay_spinbox.set(iface_config.get("delay", "0"))
+            loss_spinbox.set(iface_config.get("loss", "0"))
+            band_spinbox.set(iface_config.get("band", "1.0"))
+            limit_spinbox.set(iface_config.get("limit", "10"))
+        else: 
+            # 4. Default if not found
+            delay_spinbox.set("0")
+            loss_spinbox.set("0")
+            band_spinbox.set("1.0")
+            limit_spinbox.set("10")
+        
+        # 5. Update tracker
+        current_iface_tracker[0] = new_iface_name
 
     def on_close():
         
@@ -642,32 +693,39 @@ def open_node_window(container_name):
     interfaces = get_interfaces(container_name)
     interface_var = tk.StringVar()
     interface_combo = ttk.Combobox(tc_frame, textvariable=interface_var, values=interfaces, state="readonly", width=20, font=("Arial", 12))
-    if interfaces:
 
-        saved_iface_name = config.get("interface") 
+    if interfaces:
+        # First interface
+        saved_iface_name = None
+        existing_saved_ifaces = [iface for iface in all_container_configs.keys() if iface in [i.split(" - ")[0] for i in interfaces]]
+        if existing_saved_ifaces:
+            saved_iface_name = existing_saved_ifaces[0]
         
         target_index = 0
-        
         if saved_iface_name:
             for i, iface_string in enumerate(interfaces):
                 if iface_string.startswith(saved_iface_name):
                     target_index = i
                     break 
-
+        
         interface_combo.current(target_index)
+        current_iface_tracker[0] = interfaces[target_index].split(" - ")[0]
 
     interface_combo.grid(row=2, column=0, padx=10)
+    
+    # Bind to combobox event
+    interface_combo.bind("<<ComboboxSelected>>", update_spinboxes_for_interface)
 
     # Delay
     tk.Label(tc_frame, text="Delay (ms):", font=("Arial", 13)).grid(row=1, column=3, padx=10, pady=5)
     delay_spinbox = ttk.Spinbox(tc_frame, from_=0, to=999999, increment=10, font=("Arial", 12), width=8)
-    delay_spinbox.set(config.get("delay", "0"))
+    delay_spinbox.set("0")
     delay_spinbox.grid(row=2, column=3, padx=10)
 
     # Loss
     tk.Label(tc_frame, text="Loss (%):", font=("Arial", 13)).grid(row=1, column=4, padx=10, pady=5)
     loss_spinbox = ttk.Spinbox(tc_frame, from_=0, to=100, increment=5, font=("Arial", 12), width=8)
-    loss_spinbox.set(config.get("loss", "0"))
+    loss_spinbox.set("0")
     loss_spinbox.grid(row=2, column=4, padx=10)
 
     # Bandwidth
@@ -681,7 +739,7 @@ def open_node_window(container_name):
         format="%.1f",
         width=15
     )
-    band_spinbox.set(config.get("band", "1.0"))
+    band_spinbox.set("1.0")
     band_spinbox.grid(row=2, column=5, padx=10)
 
     # Packet limit
@@ -694,7 +752,7 @@ def open_node_window(container_name):
         font=("Arial", 12),
         width=12
     )
-    limit_spinbox.set(config.get("limit", "10"))
+    limit_spinbox.set("10")
     limit_spinbox.grid(row=2, column=6, padx=10)
 
     # Apply button for tc qdisc
@@ -721,14 +779,17 @@ def open_node_window(container_name):
             limit_spinbox, 
             win, 
             config_status,
-            save_btn
+            save_btn,
+            all_container_configs
             )
     )
     save_btn.grid(row=2, column=8, padx=10, pady=10)
     
     # save every change on parameters
-
-    interface_var.trace_add("write", set_config_dirty)
+    if interfaces:
+        update_spinboxes_for_interface()
+        config_status[0] = True
+        save_btn.config(text="Save configs")
     
     delay_spinbox.bind("<KeyRelease>", set_config_dirty)
     delay_spinbox.bind("<ButtonRelease>", set_config_dirty) 
@@ -868,7 +929,7 @@ def do_ping(container_name, ipaddr_entry, output_box, win, ping_btn):
         ipaddress.ip_address(ipaddr)
     except ValueError:
         messagebox.showerror(
-            "Error", f'"{ipaddr}" is not a valid IP.n\nPlease, enter a correct one.',
+            "Error", f'"{ipaddr}" is not a valid IP.\nPlease, enter a correct one.',
             parent=win
         )
         return
@@ -893,9 +954,12 @@ def do_ping(container_name, ipaddr_entry, output_box, win, ping_btn):
         ping_btn.config(text="Ping", state="normal")
 
 def clear_focus(event):
-    widget_with_focus = root.focus_get()
-    event.widget.focus_set()
-    widget_with_focus.selection_clear()
+    try:
+        widget_with_focus = root.focus_get()
+        event.widget.focus_set()
+        widget_with_focus.selection_clear()
+    except KeyError:
+        pass
 
 # handle recent projects
 def load_recent_projects():
@@ -1095,7 +1159,15 @@ root.title("DTN & Emulator Control GUI")
 # Treeview for containers
 tree = ttk.Treeview(root, columns=("Status",), show="tree headings")
 tree.bind("<Double-1>", on_tree_select)  # double click for new window
-tree.bind("<Button-3>", show_context_menu)  # right click for menu
+
+# right click binding for menu
+if platform.system() == "Darwin":
+    # Mac is weird as always
+    tree.bind("<Button-2>", show_context_menu)  
+    tree.bind("<Control-Button-1>", show_context_menu) # for ctrl + click
+else:
+    tree.bind("<Button-3>", show_context_menu) 
+
 root.bind("<FocusOut>", close_context_menu)
 root.bind("<Button-1>", close_context_menu)
 root.option_add("*TCombobox*Listbox.font", ("Arial", 12))

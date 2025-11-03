@@ -516,26 +516,22 @@ def open_container_window(container_name):
     else: 
         open_node_window(container_name)
 
-def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_spinbox, limit_spinbox, win, config_status, save_btn):
+def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_spinbox, limit_spinbox, win, config_status, save_btn, all_configs_data):
 
     iface_name = interface.split(" - ")[0]
 
-    all_configs = load_configs(container_name)
-
-    config_for_iface = {
+    all_configs_data[iface_name] = {
         "delay": delay_spinbox.get(),
         "loss": loss_spinbox.get(),
         "band": band_spinbox.get(),
         "limit": limit_spinbox.get()
     }
 
-    all_configs[iface_name] = config_for_iface
-
     config_file = CONFIG_DIR / f"{container_name}_config.json"
 
     try:
         with open(config_file, "w") as f:
-            json.dump(all_configs, f, indent=2)
+            json.dump(all_configs_data, f, indent=2)
         
         config_status[0] = True
         save_btn.config(text="Saved")
@@ -590,6 +586,66 @@ def open_node_window(container_name):
     win.title(f"{container_name}")
     win.bind("<Button-1>", clear_focus)
 
+    # reset tracker
+    current_iface_tracker = [None]
+
+    # this function is called when combobox is changed and act as a data archivist
+    # before updating spinbox values of the newly selected iface, check the old one and saves 
+    # all the old values in a dictionary (all_container_configs)
+    # if the old iface is selected again the values will then be dispalayed
+    # A tracker is also used to keep track of the current iface
+
+    # A python technicism is also used, this fuction (internal) cannot modify values of the external fuction directly
+    # A list is used to save tracker values, it's a way to return a reference to the variable 
+
+    def update_spinboxes_for_interface(event=None):
+        # 1. New if
+        new_iface_name = interface_var.get().split(" - ")[0]
+        
+        # 2. old if
+        old_iface_name = current_iface_tracker[0]
+
+        # 3. If interface is changing
+        if old_iface_name and old_iface_name != new_iface_name:
+            
+            # 3a. Get new spinbox values
+            current_values_in_spinbox = {
+                "delay": delay_spinbox.get(),
+                "loss": loss_spinbox.get(),
+                "band": band_spinbox.get(),
+                "limit": limit_spinbox.get()
+            }
+            
+            # 3b. Get old spinbox values (or default)
+            stored_values_for_old_iface = all_container_configs.get(old_iface_name, {
+                "delay": "0",
+                "loss": "0",
+                "band": "1.0",
+                "limit": "10"
+            })
+
+            # 3c. If they differ, configs are dirty
+            if current_values_in_spinbox != stored_values_for_old_iface:
+                all_container_configs[old_iface_name] = current_values_in_spinbox
+                set_config_dirty()
+        
+        # Load values for new interface
+        iface_config = all_container_configs.get(new_iface_name)
+
+        if iface_config:
+            delay_spinbox.set(iface_config.get("delay", "0"))
+            loss_spinbox.set(iface_config.get("loss", "0"))
+            band_spinbox.set(iface_config.get("band", "1.0"))
+            limit_spinbox.set(iface_config.get("limit", "10"))
+        else: 
+            # 4. Default if not found
+            delay_spinbox.set("0")
+            loss_spinbox.set("0")
+            band_spinbox.set("1.0")
+            limit_spinbox.set("10")
+        
+        # 5. Update tracker
+        current_iface_tracker[0] = new_iface_name
 
     def on_close():
         
@@ -612,7 +668,7 @@ def open_node_window(container_name):
 
     win.force_close = force_close       
 
-    def set_config_dirty(*args):
+    def set_config_dirty():
 
         config_status[0] = False
         try:
@@ -638,7 +694,6 @@ def open_node_window(container_name):
     subtitle_frame.pack(fill="x",padx=5, pady=5)
 
 
-
     #  -- tc section --
 
     tc_frame = tc_frame = ttk.LabelFrame(win, text=" Traffic Control ", padding=(10,10))
@@ -650,13 +705,27 @@ def open_node_window(container_name):
     interface_var = tk.StringVar()
     interface_combo = ttk.Combobox(tc_frame, textvariable=interface_var, values=interfaces, state="readonly", width=20, font=("Arial", 12))
     
-    # Starts from 1st if
     if interfaces:
-        interface_combo.current(0)
+        # First interface
+        saved_iface_name = None
+        existing_saved_ifaces = [iface for iface in all_container_configs.keys() if iface in [i.split(" - ")[0] for i in interfaces]]
+        if existing_saved_ifaces:
+            saved_iface_name = existing_saved_ifaces[0]
+        
+        target_index = 0
+        if saved_iface_name:
+            for i, iface_string in enumerate(interfaces):
+                if iface_string.startswith(saved_iface_name):
+                    target_index = i
+                    break 
+        
+        interface_combo.current(target_index)
+        current_iface_tracker[0] = interfaces[target_index].split(" - ")[0]
 
     interface_combo.grid(row=2, column=0, padx=10)
-
-    current_iface_tracker = [interfaces[0].split(" - ")[0] if interfaces else None]
+    
+    # Bind to combobox event
+    interface_combo.bind("<<ComboboxSelected>>", update_spinboxes_for_interface)
 
     # Delay
     tk.Label(tc_frame, text="Delay (ms):", font=("Arial", 13)).grid(row=1, column=3, padx=10, pady=5)
@@ -721,56 +790,17 @@ def open_node_window(container_name):
             limit_spinbox, 
             win, 
             config_status,
-            save_btn
+            save_btn,
+            all_container_configs
             )
     )
     save_btn.grid(row=2, column=8, padx=10, pady=10)
-
-    # Update spinbox based on the interface
-    def update_spinboxes_for_interface(event=None):
-
-        # if a new interface is selected all parameters are saved even before close
-        new_iface_name = interface_var.get().split(" - ")[0]
-        old_iface_name = current_iface_tracker[0]
-
-        if old_iface_name and old_iface_name != new_iface_name:
-            all_container_configs[old_iface_name] = {
-                "delay": delay_spinbox.get(),
-                "loss": loss_spinbox.get(),
-                "band": band_spinbox.get(),
-                "limit": limit_spinbox.get()
-            }
-        
-        iface_config = all_container_configs.get(new_iface_name)
-
-        if iface_config:
-            delay_spinbox.set(iface_config.get("delay", "0"))
-            loss_spinbox.set(iface_config.get("loss", "0"))
-            band_spinbox.set(iface_config.get("band", "1.0"))
-            limit_spinbox.set(iface_config.get("limit", "10"))
-        else: 
-            # Use default values
-            delay_spinbox.set("0")
-            loss_spinbox.set("0")
-            band_spinbox.set("1.0")
-            limit_spinbox.set("10")
-        
-        current_iface_tracker[0] = new_iface_name
-
-        config_status[0] = True
-        try:
-            if save_btn.winfo_exists():
-                save_btn.config(text="Save configs")
-        except (tk.TclError, NameError):
-            pass
-            
-    interface_combo.bind("<<ComboboxSelected>>", update_spinboxes_for_interface)
-    
-    # Load parameters for first interface
-    if interfaces:
-        update_spinboxes_for_interface()
     
     # save every change on parameters
+    if interfaces:
+        update_spinboxes_for_interface()
+        config_status[0] = True
+        save_btn.config(text="Save configs")
 
     delay_spinbox.bind("<KeyRelease>", set_config_dirty)
     delay_spinbox.bind("<ButtonRelease>", set_config_dirty) 
@@ -916,7 +946,7 @@ def do_ping(container_name, ipaddr_entry, output_box, win, ping_btn):
         ipaddress.ip_address(ipaddr)
     except ValueError:
         messagebox.showerror(
-            "Error", f'"{ipaddr}" is not a valid IP.n\nPlease, enter a correct one.',
+            "Error", f'"{ipaddr}" is not a valid IP.\nPlease, enter a correct one.',
             parent=win
         )
         return
@@ -941,9 +971,12 @@ def do_ping(container_name, ipaddr_entry, output_box, win, ping_btn):
         ping_btn.config(text="Ping", state="normal")
 
 def clear_focus(event):
-    widget_with_focus = root.focus_get()
-    event.widget.focus_set()
-    widget_with_focus.selection_clear()
+    try:
+        widget_with_focus = root.focus_get()
+        event.widget.focus_set()
+        widget_with_focus.selection_clear()
+    except KeyError:
+        pass
 
 # handle recent projects
 def load_recent_projects():
@@ -1104,7 +1137,6 @@ def on_main_window_close():
                 root.destroy()
             
             stop_all_containers(on_done=finish_close)
-            
 
 # GUI
 root = tk.Tk()
@@ -1138,12 +1170,19 @@ sv_ttk.set_theme("dark")
 root.title("DTN & Emulator Control GUI")
 
 
-
-
 # Treeview for containers
 tree = ttk.Treeview(root, columns=("Status",), show="tree headings")
+
 tree.bind("<Double-1>", on_tree_select)  # double click for new window
-tree.bind("<Button-3>", show_context_menu)  # right click for menu
+
+# right click binding for menu
+if platform.system() == "Darwin":
+    # Mac is weird as always
+    tree.bind("<Button-2>", show_context_menu)  
+    tree.bind("<Control-Button-1>", show_context_menu) # for ctrl + click
+else:
+    tree.bind("<Button-3>", show_context_menu)
+
 root.bind("<FocusOut>", close_context_menu)
 root.bind("<Button-1>", close_context_menu)
 root.option_add("*TCombobox*Listbox.font", ("Arial", 12))

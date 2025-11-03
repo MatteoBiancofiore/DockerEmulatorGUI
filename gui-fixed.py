@@ -455,6 +455,13 @@ def show_context_menu(event):
         context_menu.add_command(label="Terminal", font=("Arial", 14), command=lambda: open_terminal(row_id))
         context_menu.post(event.x_root, event.y_root)
 
+# Tkinter will automatically pass an 'event' object as an argument,
+# specifiying event=None makes the fuction flexible, either callable with or without an event
+def close_context_menu(event=None):
+    try:
+        context_menu.unpost()
+    except:
+        pass
 def close_context_menu(event=None):
     try:
         context_menu.unpost()
@@ -657,6 +664,7 @@ def open_node_window(container_name):
 
     win.force_close = force_close
 
+    # *args so the function acceps any number of args
     def set_config_dirty(*args):
 
         config_status[0] = False

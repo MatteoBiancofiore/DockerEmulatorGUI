@@ -157,8 +157,6 @@ def refresh_containers():
                     proc.terminate() 
                 except Exception: pass    
 
-            
-
     for c in docker_containers:
         if c.status != "running" and c.name in open_windows:
             try:
@@ -393,13 +391,13 @@ def open_terminal(row_id):
         
     else: # Linux
         terminal_emulators = [
-            "terminator"
+            "terminator",
             "gnome-terminal",
             "konsole",
             "xfce4-terminal",
             "mate-terminal",
             "lxterminal",
-            "x-terminal-emulator",
+            "x-terminal-emulator"
         ]
     
         found_term = False

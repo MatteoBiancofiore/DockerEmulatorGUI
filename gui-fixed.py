@@ -392,13 +392,13 @@ def open_terminal(row_id):
 
     else: # Linux
         terminal_emulators = [
+            "terminator",
             "gnome-terminal",
             "konsole",
             "xfce4-terminal",
             "mate-terminal",
             "lxterminal",
-            "x-terminal-emulator",
-            "terminator"
+            "x-terminal-emulator"
         ]
     
         found_term = False

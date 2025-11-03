@@ -533,7 +533,9 @@ def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_sp
         "limit": limit_spinbox.get()
     }
 
-    config_file = CONFIG_DIR / f"{container_name}_config.json"
+    project_config_dir = CONFIG_DIR / project_name
+    project_config_dir.mkdir(parents=True, exist_ok=True)
+    config_file = project_config_dir / f"{container_name}_config.json"
 
     try:
         with open(config_file, "w") as f:
@@ -557,7 +559,8 @@ def save_configs(container_name, interface, delay_spinbox, loss_spinbox, band_sp
 
 def load_configs(container_name):
 
-    config_file = CONFIG_DIR / f"{container_name}_config.json"
+    project_config_dir = CONFIG_DIR / project_name
+    config_file = project_config_dir / f"{container_name}_config.json"
 
     if config_file.exists():
         try:

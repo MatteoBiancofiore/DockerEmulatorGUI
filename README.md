@@ -23,6 +23,7 @@ It aims to enhance **transparency** and reduce the complexity of command-line co
 
 - `gui.py` → main GUI file.
 - `images/` → folder containing images used by the GUI.
+- `requirements.txt` → file containing all required python libraries
 
 **Note:** the `images/` folder **should be in the same directory as `gui.py`** for the images to load correctly. 
 It is not strictly required, but recommended.
@@ -108,9 +109,7 @@ sudo apt install python3 python3-tk python3-pip
 
 
 # Install (or update) required libraries
-pip3 install --upgrade docker
-pip3 install --upgrade pillow
-pip3 install --upgrade sv_ttk
+pip3 install -r requirements.txt
 ```
 
 ## Permissions
@@ -140,25 +139,107 @@ Once the environment is ready:
 python3 gui.py
 ```
 
-# Windows installation
+# Windows Installation Guide
+## Install Docker
 
-Download Python 3 from python.org
-`IMPORTANT` Make sure to check “Add Python to PATH” during installation.
+> **Note:** Skip this section if you already have Docker & Docker Compose installed
 
-Tkinter – Included with Python 3 (verify with python3 -m tkinter --version).
-pip     – Included with Python 3 (verify with python -m pip --version in command shell CMD ).
+### Step 1: Download Docker Desktop
 
+Go to the Docker official website:
+👉 [https://www.docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop)
 
-Python Libraries – Install the required dependencies:
-```shell
-pip3 install docker pillow sv_ttk
+Click on **"Download for Windows"**
+
+### Step 2: Install Docker Desktop
+
+1. Open `Docker Desktop Installer.exe`
+2. During the installation:
+   - Make sure to check **"Use WSL 2 instead of Hyper-V"**
+   - Follow the displayed instructions
+3. Reboot if needed
+
+### Step 3: Configure WSL 2 (if not active)
+
+Docker uses **WSL 2 (Windows Subsystem for Linux)** to run containers.
+
+#### Check if WSL 2 is already installed:
+
+Open **PowerShell** as Administrator and type:
+```powershell
+wsl --list --online
 ```
 
-### Execute
-```shell
+If not installed, run:
+```powershell
+wsl --install
+```
+
+### Step 4: Verify Installation
+
+1. Open Docker Desktop from the Start menu and wait for it to start correctly
+2. Open PowerShell and verify the installation:
+```powershell
+docker --version
+docker-compose --version
+```
+
+You should see version numbers for both commands if the installation was successful.
+
+---
+
+**Troubleshooting:**
+- If Docker Desktop doesn't start, ensure virtualization is enabled in your BIOS
+- If WSL 2 installation fails, you may need to enable the Virtual Machine Platform feature in Windows
+- Restart your computer after installation if Docker Desktop shows any errors
+
+## GUI installation
+
+> **Note:** Having Docker installed (and running) is crucial for the gui!
+
+### Step 1: Download Python
+
+Go to the Python official website:
+👉 [https://www.python.org/downloads/](https://www.python.org/downloads/)
+and download latest version, Windows Installer(64 bit)
+
+### Step 2: Install Python
+
+1. Open `python-xx.exe`
+2. `IMPORTANT`<u>Make sure to check “Add Python to PATH” during installation</u>
+3. Follow displayed instructions
+
+### Step 3: Verify Python Installation
+Open PowerShell or Command Prompt and type:
+```powershell
+python --version
+pip --version
+```
+You should see version numbers for both commands if the installation was successful.
+
+If for some reason pip is not installed run:
+```powershell
+python -m ensurepip --upgrade
+```
+
+### Step 4: Install required libraries
+```powershell
+# Navigate to gui folder
+cd /path/to/gui.py
+
+# Install requirements
+pip3 install -r requirements.txt
+```
+
+## Running the GUI
+Once the environment is ready:
+```powershell
 cd /path/to/gui/folder
 python gui.py
 ```
+
+
+
 
 ### MacOS installation
 

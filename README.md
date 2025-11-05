@@ -112,6 +112,29 @@ sudo apt install python3 python3-tk python3-pip
 pip3 install -r requirements.txt
 ```
 
+> **Note:** From Ubuntu 22.04 python packages are managed externally by apt, this means you have to either install them globally or create a python venv.
+### Virtual environment
+```bash
+# In gui.py folder
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Global installation
+> **Note:** sv_ttk is a library for style, not strictly necessary, you can use gui-fixed.py instead. Its not included in apt packages and can only be installed with pip!
+```bash
+# global installation using apt
+sudo apt install python3-docker
+sudo apt install python3-pil
+sudo apt install python3-pil.imagetk
+pip3 install sv_ttk --break-system-packages     # it may sound scary but this just ignores the protection and install this library into system's python
+```
+
+
+
+
+
 ## Permissions
 
 In order to connect with Docker, the user must have the proper permissions: running the GUI with `sudo`  does not work,
@@ -137,6 +160,16 @@ Once the environment is ready:
 ```bash
 # In gui.py folder
 python3 gui.py
+```
+> **Note:** If you created a venv during installation phase you have to activate it everytime you want to run the gui. 
+```bash
+# In gui.py folder
+# activate virtual env
+source venv/bin/activate
+python3 gui.py
+
+# deactivate virtual env
+deactivate
 ```
 
 # Windows Installation Guide

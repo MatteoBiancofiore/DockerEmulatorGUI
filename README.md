@@ -58,6 +58,7 @@ This guide covers the requirements and installation steps required to run DTG on
 > **Note:** Skip this passage if you have Docker & Docker-compose installed
 
 > **Note:** Docker Compose comes with Docker Desktop on Windows and MacOS
+
 For this passage you can either follow the Docker_Testbeds\_guide.pdf file in
 
 👉 [https://gitlab.com/unibo-dtn-docker-environment/DTN2hops](https://gitlab.com/unibo-dtn-docker-environment/DTN2hops)

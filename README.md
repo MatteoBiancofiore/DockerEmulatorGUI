@@ -58,6 +58,7 @@ This guide covers the requirements and installation steps required to run DTG on
 > **Note:** Skip this passage if you have Docker & Docker-compose installed
 
 > **Note:** Docker Compose comes with Docker Desktop on Windows and MacOS
+
 For this passage you can either follow the Docker_Testbeds\_guide.pdf file in
 
 👉 [https://gitlab.com/unibo-dtn-docker-environment/DTN2hops](https://gitlab.com/unibo-dtn-docker-environment/DTN2hops)
@@ -81,7 +82,10 @@ and Docker Compose
 
 ```bash
 # Update repositories' dependancies and upgrade packages
-sudo apt update && sudo apt upgrade -y
+sudo apt update
+sudo apt upgrade -y # -y to automatically say yes
+
+# Install needed python packages
 sudo apt install python3 python3-tk python3-pip
 ```
 
@@ -91,7 +95,7 @@ sudo apt install python3 python3-tk python3-pip
 
 #### Virtual environment
 ```bash
-# In main.py folder
+# In the project's root folder (where main.py is)
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
@@ -125,7 +129,6 @@ docker ps
 ```
 
 ---
-
 
 ## Windows Installation
 

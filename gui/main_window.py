@@ -1,14 +1,58 @@
-# gui/main_window.py
+r"""
+\file gui/main_window.py
+
+\brief Main window class for DTG GUI
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+	
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+"""
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 import platform
 import threading
 
 from core import docker_ops, system_ops
-# Import sub window
-from gui.node_window import NodeWindow
 
 class MainWindow(ttk.Frame):
+    r"""
+    \brief Main Window of DTG GUI.
+
+    This class represents the main window of the DTG GUI application.
+    It shows the list of Docker containers and allows users to
+    start, stop, restart containers, and open terminal windows.
+
+    \param parent The parent tkinter widget.
+    \param controller The main application controller (DTGApp instance).
+    """
     
     def __init__(self, parent, controller):
         super().__init__(parent)
@@ -27,6 +71,14 @@ class MainWindow(ttk.Frame):
         self.pack(fill="both", expand=True)
 
     def _build_main_ui(self):
+        r"""
+        \brief Utility function to build the main UI components.
+
+        This fuction builds the Treeview for displaying Docker containers,
+        the control buttons, and sets up the context menu for container actions.
+
+        \return None
+        """
         self.tree = ttk.Treeview(self, columns=("Status",), show="tree headings")
         self.tree.bind("<Double-1>", self.on_tree_select)
 
@@ -69,9 +121,21 @@ class MainWindow(ttk.Frame):
 
         self.context_menu = tk.Menu(self.parent, tearoff=0)
 
-    # Logic methods needed for main window
+    # Business logic methods needed for main window
     
     def refresh_containers(self):
+        r"""
+        \brief Utility function to refresh the list of Docker containers shown in the GUI.
+
+        This fuction queries Docker via docker_ops for the current status of containers related 
+        to the active project and updates the Treeview accordingly. 
+        It also handles closing any open windows or terminals for containers 
+        that have been removed or stopped.
+
+        \return None
+
+        \throw DockerError if Docker is not reachable
+        """
         try:
             docker_containers = docker_ops.get_project_containers(
                 self.controller.client, self.controller.project_name
@@ -122,6 +186,18 @@ class MainWindow(ttk.Frame):
                                      values=(c.status,), image=icon)
 
     def start_container(self, row_id):
+        r"""
+        \brief Utility function to start a Docker container from the GUI.
+
+        This function attempts to start the specified Docker container via docker_ops. 
+        It checks if the container is already running or locked, 
+        and updates the GUI accordingly.
+        The starting operation is performed in a separate thread to keep the GUI responsive.
+
+        \param row_id The identifier of the container to start (container name).
+
+        \throw DockerError if Docker is not reachable
+        """
         try:
             container = docker_ops.get_container(self.controller.client, row_id)
         except Exception as e:
@@ -157,6 +233,20 @@ class MainWindow(ttk.Frame):
         threading.Thread(target=do_start_worker, daemon=True).start()
 
     def stop_container(self, row_id):
+        r"""
+        \brief Utility function to stop a Docker container from the GUI.
+
+        This fuction attempts to stop the specified Docker container via docker_ops. 
+        It checks if the container is already stopped or locked, 
+        and updates the GUI accordingly.
+        The stopping operation is performed in a separate thread to keep the GUI responsive.
+
+        \param row_id The identifier of the container to start (container name).
+        
+        \return None
+
+        \throw DockerError if Docker is not reachable
+        """
         try:
             container = docker_ops.get_container(self.controller.client, row_id)
         except Exception as e:
@@ -200,6 +290,19 @@ class MainWindow(ttk.Frame):
         threading.Thread(target=do_stop_worker, daemon=True).start()
 
     def restart_container(self, row_id):
+        r"""
+        \brief Utility function to restart a Docker container from the GUI.
+
+        This fuction attempts to restart the specified Docker container via docker_ops. 
+        It checks if the container is locked, and updates the GUI accordingly.
+        The restarting operation is performed in a separate thread to keep the GUI responsive.
+        
+        \param row_id The identifier of the container to start (container name).
+
+        \return None
+
+        \throw DockerError if Docker is not reachable
+        """
         try:
             container = docker_ops.get_container(self.controller.client, row_id)
         except Exception as e:
@@ -292,6 +395,19 @@ class MainWindow(ttk.Frame):
         threading.Thread(target=parallel_stop_manager, daemon=True).start()
 
     def open_terminal(self, row_id):
+        r"""
+        \brief Utility function to open a terminal window for a Docker container from the GUI.
+
+        This fuction uses system_ops to open a terminal window attached 
+        to the specified Docker container. 
+        It checks if the container is locked or already has an open terminal.
+
+        \param row_id The identifier of the container to open a terminal for (container name).
+
+        \return None
+
+        \throw TerminalError if the terminal could not be opened
+        """
         try:
             container = docker_ops.get_container(self.controller.client, row_id)
         except Exception as e:

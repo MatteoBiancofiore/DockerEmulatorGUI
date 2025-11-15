@@ -1,4 +1,40 @@
-# core/system_ops.py
+r"""
+\file core/system_ops.py
+
+\brief Implementation of system operations for Docker Compose and terminal management.
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+	
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+"""
+
 import shutil, subprocess, platform, shlex
 
 class ComposeNotFoundError(Exception):
@@ -11,7 +47,19 @@ class TerminalError(Exception):
     pass
 
 def exec_compose(compose_file):
+    r"""
+    \brief Execute Docker Compose command to start the environment
+
+    This fuction search for the version of Docker Compose installed on your system and
+    execute the precise command with '-d' flag (detatched), containers will run in background.
     
+    \param compose_file (Path or str) Absolute path to .yml/.yaml file.
+
+    \return (list) List of argument of cmd (e.g. `['docker', 'compose', ...]`).
+
+    \throws ComposeNotFoundError If Docker Compose is not installed.
+    \throws DockerComposeError If errors occurs (e.g. invalid file, docker image not found)
+    """
     cmd = None
     
     # Check if the standalone 'docker-compose' (v1) is available
@@ -27,7 +75,6 @@ def exec_compose(compose_file):
             # 'docker' executable exists, but the 'compose' plugin is missing
             pass # cmd remains None
             
-    # If cmd is still None after all checks, show an error
     if cmd is None:
         raise ComposeNotFoundError(
             "Docker Compose not found.\n\n"
@@ -41,16 +88,16 @@ def exec_compose(compose_file):
         subprocess.run(cmd, check=True, capture_output=True, text=True, encoding='utf-8')
     
     except subprocess.CalledProcessError as e:
-        # Using the improved error message we discussed, translated into English
         error_message = (
             "An error occurred while running 'docker compose up'.\n\n"
             "This could be due to one of the following:\n\n"
-            "1. Invalid Compose File: The selected file contains syntax errors, "
+            "1. Docker is not currently running, make sure to start it first\n\n"
+            "2. Invalid Compose File: The selected file contains syntax errors, "
             "references an invalid path, or is unreadable.\n\n"
-            "2. Image Not Found: A base image specified in the file (or its Dockerfile) "
+            "3. Image Not Found: A base image specified in the file (or its Dockerfile) "
             "could not be found or pulled.\n\n"
-            "Please check the file's syntax and ensure all required Docker images "
-            "are correct and accessible."
+            "Please check the file's syntax and ensure Docker is running and "
+            "all required images are correct and accessible."
         )
         raise DockerComposeError(error_message)
         
@@ -58,7 +105,18 @@ def exec_compose(compose_file):
 
 
 def open_terminal(container_name: str):
-   
+    r"""
+    \brief Opens a terminal attached to the specified container
+
+    This fuction detects the host OS (via 'platform' module) and attemps
+    to launch a shell session using the first terminal found on the system.   
+    
+    \param container_name (str) The name of the Docker container
+
+    \return (subprocess.Popen) The process object opened, used for tracking
+
+    \throws TerminalError If no compatible terminal emulator is found.
+    """
     system_platform = platform.system()
     escaped_name = shlex.quote(container_name)
     docker_cmd = f"docker exec -it {escaped_name} bash"
@@ -122,9 +180,7 @@ def open_terminal(container_name: str):
                 else: # fallback
                     terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
                     
-                
                 found_term = True
-                print(f"Debug: used {term} (path: {path})")
                 break
         
         if not found_term:

@@ -1,11 +1,47 @@
-# app.py
+r"""
+\file app.py
+
+\brief The central orchestrator of whole application 
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+	
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+"""
+
 import tkinter as tk
 import docker, sys
-from tkinter import ttk, messagebox, filedialog
+from tkinter import messagebox
 from pathlib import Path
 import sv_ttk
 
-# Importa our modules
+# Import our modules
 import core.config_manager as config_manager
 from core import docker_ops, system_ops
 from utils.lock_manager import OperationLock
@@ -16,6 +52,19 @@ from gui.startup_window import choose_project_popup
 
 
 class DTGApp:
+    r"""
+    \brief Main Controller that handle DTG lifecycle.
+
+    The DTGApp class is responsible for initializing the environment, 
+    connecting to Docker daemon and coordinating between MainWindow
+    and individual nodes windows.
+
+    Its purpose is to store the app's state which includes:
+    - Docker client.
+    - Active docker-compose file.
+    - List of open windows.
+    - Lock for asynchronous operations.
+    """
     
     def __init__(self, root):
         self.root = root
@@ -41,7 +90,7 @@ class DTGApp:
         self.exit_icon = assets.load_image(assets.IMAGE_DIR / "exit.png")
         
         # Main Widget UI
-        self.main_window = None # A single container
+        self.main_window = None
 
         # STARTING LOGIC
         try:
@@ -84,14 +133,27 @@ class DTGApp:
             
         self.compose_file = Path(self.compose_file)
 
-        # 3b. Execute Docker-Compose
+        # Execute Docker-Compose via system_ops
         system_ops.exec_compose(self.compose_file)
         
+        # Save recent project via config_manager
         config_manager.save_recent_project(self.compose_file)
         self.project_name = self.compose_file.parent.name.lower()
         self.client = docker.from_env()
 
     def open_container_window(self, container_name):
+        r"""
+        \brief Open a new window for the given container.
+
+        This method checks if the container is running, if a window
+        for the container is already open, and if the container is locked.
+        If all checks pass, it creates a new NodeWindow for the container
+        and tracks it in the open_windows dictionary.
+
+        \param container_name The name of the container to open the window for.
+
+        \return None
+        """
         try:
             container = docker_ops.get_container(self.client, container_name)
         except Exception as e:
@@ -118,51 +180,6 @@ class DTGApp:
 
         # Add window to tracker
         self.open_windows[container_name] = new_window
-
-    def _choose_project_popup(self):
-        popup = tk.Toplevel(self.root)
-        popup.title("Select Docker Compose project")
-        popup.geometry("600x500")
-        popup.wm_minsize(600, 500)
-
-        ttk.Label(popup, text="Recent projects:", font=("Arial", 16)).pack(pady=10)
-        projects = config_manager.load_recent_projects()
-        listbox = tk.Listbox(popup, font=("Arial", 13), selectmode=tk.SINGLE)
-        listbox.pack(fill=tk.BOTH, padx=20, pady=10)
-        
-        for p in projects:
-            listbox.insert(tk.END, p)
-
-        selected_path = {"path": None}
-        
-        def select_existing():
-            sel = listbox.curselection()
-            if not sel:
-                messagebox.showwarning("Warning", "Select a project...", parent=popup)
-                return
-            selected_path["path"] = projects[sel[0]]
-            popup.destroy()
-
-        def browse_new():
-            filepath = filedialog.askopenfilename(title="Select a .yml file",
-                        filetypes=[("YAML files", "*.yml *.yaml")]) or None
-            if filepath:
-                selected_path["path"] = filepath
-                popup.destroy()
-        
-        def exit_popup():
-            popup.destroy()
-            
-        ttk.Button(popup, text="Open selected project", image=self.open_icon,
-                   compound=tk.LEFT, command=select_existing).pack(pady=5)
-        ttk.Button(popup, text="Browse new file", image=self.folder_icon,
-                   compound=tk.LEFT, command=browse_new).pack(pady=5)
-        ttk.Button(popup, text="Exit", image=self.exit_icon,
-                   compound=tk.LEFT, command=exit_popup, width=4).pack(pady=5)
-
-        popup.grab_set()
-        self.root.wait_window(popup)
-        return selected_path["path"]
 
     def show_exiting_popup(self):
         popup = tk.Toplevel(self.root)

@@ -1,7 +1,49 @@
-# utils/lock_manager.py
+r"""
+\file utils/lock_manager.py
 
-# class to lock operations on containers
+\brief Lock manager for asynchronous operations
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+	
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+"""
+
 class OperationLock:
+    r"""
+    \brief Manager used to handle concurrency and operation locks on containers
+
+    The OperationLock prevents race conditions and conflictual action on containers
+    by ensuring that only one operation (start, stop, restart) can be performed 
+    at a time on a specific container.
+    """
+    
     def __init__(self):
         self._locks = {}
 

@@ -1,4 +1,40 @@
-# gui/container_window.py
+r"""
+\file gui/node_window.py
+
+\brief Sub window for controlling individual Docker containers (DTN nodes).
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+	
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+"""
+
 import tkinter as tk
 from tkinter import ttk, messagebox, scrolledtext
 import threading
@@ -8,6 +44,17 @@ import ipaddress
 from core import docker_ops, config_manager
 
 class NodeWindow(tk.Toplevel):
+    r"""
+    \brief Main Window of DTN node.
+
+    This class represents the control window associated with a specific Docker container (DTN node).
+    It provides functionalities to apply traffic control rules, perform network tests (ping),
+    and view console output related to the container.
+
+    \param parent The parent Tkinter window.
+    \param controller The main application controller.
+    \param container_name The name of the Docker container associated with this window.
+    """
     
     # Constructor
     def __init__(self, parent, controller, container_name):
@@ -38,8 +85,17 @@ class NodeWindow(tk.Toplevel):
         # Build UI
         self._build_ui()
 
-    # 2. Widget creation
+    # Widget creation
     def _build_ui(self):
+        r"""
+        \brief Utility function to build the node UI componetns.
+
+        This fuction builds the various UI components of the node window,
+        including the title, traffic control section, network test section,
+        and console output area.
+
+        \return None
+        """
         title_frame = tk.Frame(self)
         ttk.Button(
             title_frame, text="Close",  
@@ -161,6 +217,15 @@ class NodeWindow(tk.Toplevel):
     # Logic to handle edits on parameters
     
     def _update_spinboxes_for_interface(self, event=None):
+        r"""
+        \brief Utility function to update spinboxes when interface selection changes.
+
+        This fuction handles the event when the user selects a different network interface
+        from the dropdown. It saves the current configuration for the previously selected interface
+        (if modified) and loads the saved configuration for the newly selected interface into the spinboxes 
+
+        \return None
+        """
         new_iface_name = self.interface_var.get().split(" - ")[0]
         old_iface_name = self.current_iface_tracker[0]
         
@@ -190,6 +255,13 @@ class NodeWindow(tk.Toplevel):
         self.current_iface_tracker[0] = new_iface_name
 
     def _on_close(self):
+        r"""
+        \brief Utility function to notify unsaved changes on close.
+
+        This fuction is called when the user attempts to close the node window.
+        
+        \return None
+        """
         if self.config_status[0] == False:
             if not messagebox.askyesno("Unsaved Changes", "You have unsaved changes that will be lost.\nAre you sure you want to close?", parent=self):
                 return
@@ -203,6 +275,11 @@ class NodeWindow(tk.Toplevel):
         self._on_close() 
 
     def _set_config_dirty(self, *args):
+        r"""
+        \brief Utility function to set configuration status to dirty(unsaved) when modified.
+        
+        \return None
+        """
         self.config_status[0] = False
         try:
             if self.save_btn.winfo_exists():
@@ -211,6 +288,14 @@ class NodeWindow(tk.Toplevel):
             pass 
 
     def _save_configs_action(self):
+        r"""
+        \brief Utility function to save current configurations.
+
+        This fuction saves the current traffic control configurations 
+        for the selected interface using config_manager.
+
+        \return None
+        """
         # Call core_function
         config_manager.save_configs(
             self.controller.project_name,
@@ -251,6 +336,16 @@ class NodeWindow(tk.Toplevel):
         self.output_box.config(state="disabled")
 
     def do_tc(self):
+        r"""
+        \brief Utility function to run tc command inside the container.
+
+        This fuction retrieves the parameters from the spinboxes, validates them,
+        and then applies the traffic control rules inside the Docker container using docker_ops.
+        It also handles displaying the output or any errors in the console area.
+        Tc command is executed in a separate thread to keep the UI responsive.
+
+        \return None
+        """
         delay = self.delay_spinbox.get()
         loss = self.loss_spinbox.get()
         bandwidth = self.band_spinbox.get()
@@ -310,6 +405,16 @@ class NodeWindow(tk.Toplevel):
         threading.Thread(target=do_tc_worker, daemon=True).start()
 
     def do_ping(self):
+        r"""
+        \brief Utility function to run ping command inside the container.
+
+        This fuction retrieves the parameters from the entry box, validates them,
+        and then performs the ping command inside the Docker container using docker_ops.
+        It also handles displaying the output or any errors in the console area.
+        Ping command is executed in a separate thread to keep the UI responsive.
+
+        \return None
+        """
         ipaddr = self.ipaddr_entry.get()
         if not ipaddr:
             messagebox.showwarning("Input Error", "Please enter a valid IP address.", parent=self)

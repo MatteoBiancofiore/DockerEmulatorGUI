@@ -1,4 +1,40 @@
-# gui/startup_window.py
+r"""
+\file gui/startup_window.py
+
+\brief The startup window for DTG application. Used to choose or create a Docker Compose project.
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+	
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+"""
+
 import subprocess, platform, shutil
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
@@ -7,7 +43,19 @@ from tkinter import ttk, messagebox, filedialog
 from core import config_manager
 
 def choose_project_popup(parent, icons):
- 
+    r"""
+    \brief Popup window to choose or create a Docker Compose project.
+
+    This fucntion creates a popup window that allows the user to either select an existing
+    Docker Compose project from a list of recent projects or browse the filesystem to select a
+    new Docker Compose YAML file.
+
+    \param parent The parent tkinter window.
+    \param icons A dictionary containing icons for buttons.
+
+    \return The path to the selected Docker Compose project file, or None if the user exits.
+
+    """
     popup = tk.Toplevel(parent)
     popup.title("Select Docker Compose project")
     popup.geometry("600x500")
@@ -68,7 +116,7 @@ def choose_project_popup(parent, icons):
                 )
                 filepath = result.stdout.strip() or None
 
-        # --- Windows (o fallback) ---
+        # --- Windows (or fallback) ---
         if not filepath and flag is False:
             filepath = filedialog.askopenfilename(
                         title="Select a .yml file",
@@ -86,7 +134,7 @@ def choose_project_popup(parent, icons):
         selected_path["path"] = None
         popup.destroy()
         
-    # Usa il dizionario 'icons' che abbiamo passato
+    # use icon dictionary to create buttons with images
     ttk.Button(popup, text="Open selected project", image=icons['open'],
                compound=tk.LEFT, command=select_existing).pack(pady=5)
     ttk.Button(popup, text="Browse new file", image=icons['folder'],

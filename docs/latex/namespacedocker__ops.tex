@@ -1,0 +1,199 @@
+\doxysection{docker\+\_\+ops Namespace Reference}
+\hypertarget{namespacedocker__ops}{}\label{namespacedocker__ops}\index{docker\_ops@{docker\_ops}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Container \mbox{\hyperlink{namespacedocker__ops_aeefd564a11c6f077c70e43e9d906a92d}{get\+\_\+container}} (Docker\+Client client, str container\+\_\+id)
+\item 
+List\mbox{[}Container\mbox{]} \mbox{\hyperlink{namespacedocker__ops_a9a5a84e954f049534fdbdfd4c5701bf6}{get\+\_\+project\+\_\+containers}} (Docker\+Client client, str project\+\_\+name)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{namespacedocker__ops_a0634c7b9589cb975c4d91733eed2b7f5}{get\+\_\+container\+\_\+interfaces}} (Docker\+Client client, str container\+\_\+id)
+\item 
+\mbox{\hyperlink{namespacedocker__ops_adad054484e791a76ba1cdef658bbff8a}{start\+\_\+container\+\_\+by\+\_\+id}} (Docker\+Client client, str container\+\_\+id)
+\item 
+\mbox{\hyperlink{namespacedocker__ops_ad688715850de7db6e024dd4afaadc00c}{stop\+\_\+container\+\_\+by\+\_\+id}} (Docker\+Client client, str container\+\_\+id)
+\item 
+\mbox{\hyperlink{namespacedocker__ops_aa66aed2c8cff7685d234553bd918ded7}{restart\+\_\+container\+\_\+by\+\_\+id}} (Docker\+Client client, str container\+\_\+id)
+\item 
+\mbox{\hyperlink{namespacedocker__ops_abc595b38b9b1525c75d52b1c4bc406ec}{apply\+\_\+tc\+\_\+rules}} (Docker\+Client client, str container\+\_\+id, str eth, str delay, str loss, str band, str limit)
+\item 
+\mbox{\hyperlink{namespacedocker__ops_a40e6fad19320ab56a5d122697821fbe6}{run\+\_\+container\+\_\+ping}} (Docker\+Client client, str container\+\_\+id, str ipaddr)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}\file core/docker_ops.py
+
+\brief Docker operations utility functions for DTG
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+    
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacedocker__ops_aeefd564a11c6f077c70e43e9d906a92d}\label{namespacedocker__ops_aeefd564a11c6f077c70e43e9d906a92d} 
+\index{docker\_ops@{docker\_ops}!get\_container@{get\_container}}
+\index{get\_container@{get\_container}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{get\_container()}{get\_container()}}
+{\footnotesize\ttfamily  Container get\+\_\+container (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\Hypertarget{namespacedocker__ops_a9a5a84e954f049534fdbdfd4c5701bf6}\label{namespacedocker__ops_a9a5a84e954f049534fdbdfd4c5701bf6} 
+\index{docker\_ops@{docker\_ops}!get\_project\_containers@{get\_project\_containers}}
+\index{get\_project\_containers@{get\_project\_containers}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{get\_project\_containers()}{get\_project\_containers()}}
+{\footnotesize\ttfamily  List\mbox{[}Container\mbox{]} get\+\_\+project\+\_\+containers (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{project\+\_\+name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}    \brief Utility function to get all containers belonging to the specified project 
+    
+    \param client (DockerClient) Docker Client instance
+
+    \param project_name (str) The name of the project
+
+    \return (list) List of containers of the specified project
+
+    \throws Exception If no containers are found\end{DoxyVerb}
+ \Hypertarget{namespacedocker__ops_a0634c7b9589cb975c4d91733eed2b7f5}\label{namespacedocker__ops_a0634c7b9589cb975c4d91733eed2b7f5} 
+\index{docker\_ops@{docker\_ops}!get\_container\_interfaces@{get\_container\_interfaces}}
+\index{get\_container\_interfaces@{get\_container\_interfaces}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{get\_container\_interfaces()}{get\_container\_interfaces()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} get\+\_\+container\+\_\+interfaces (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}    \brief Utility function to get interfaces names and associated ips of the specified container
+
+    This function executes commands inside the container 
+    to list network interfaces and retrieve their IP addresses.
+    
+    \param client (DockerClient) Docker Client instance
+
+    \param container_id (str) The id of the container
+
+    \return (list) List of {interface_name - ip} entries\end{DoxyVerb}
+ \Hypertarget{namespacedocker__ops_adad054484e791a76ba1cdef658bbff8a}\label{namespacedocker__ops_adad054484e791a76ba1cdef658bbff8a} 
+\index{docker\_ops@{docker\_ops}!start\_container\_by\_id@{start\_container\_by\_id}}
+\index{start\_container\_by\_id@{start\_container\_by\_id}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{start\_container\_by\_id()}{start\_container\_by\_id()}}
+{\footnotesize\ttfamily start\+\_\+container\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to start a container by its id
+
+This fuction uses the Docker SDK for Python to interact with the Docker daemon
+and start a certain container. It is invoked by the GUI when the user requests a container start.
+
+\param client (DockerClient) Docker Client instance
+
+\param container_id (str) The id of the container to start
+
+\return (None)
+\end{DoxyVerb}
+ \Hypertarget{namespacedocker__ops_ad688715850de7db6e024dd4afaadc00c}\label{namespacedocker__ops_ad688715850de7db6e024dd4afaadc00c} 
+\index{docker\_ops@{docker\_ops}!stop\_container\_by\_id@{stop\_container\_by\_id}}
+\index{stop\_container\_by\_id@{stop\_container\_by\_id}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{stop\_container\_by\_id()}{stop\_container\_by\_id()}}
+{\footnotesize\ttfamily stop\+\_\+container\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to stop a container by its id
+
+This fuction uses the Docker SDK for Python to interact with the Docker daemon
+and stop a certain container. It is invoked by the GUI when the user requests a container stop.
+
+\param client (DockerClient) Docker Client instance
+
+\param container_id (str) The id of the container to stop
+
+\return (None)
+\end{DoxyVerb}
+ \Hypertarget{namespacedocker__ops_aa66aed2c8cff7685d234553bd918ded7}\label{namespacedocker__ops_aa66aed2c8cff7685d234553bd918ded7} 
+\index{docker\_ops@{docker\_ops}!restart\_container\_by\_id@{restart\_container\_by\_id}}
+\index{restart\_container\_by\_id@{restart\_container\_by\_id}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{restart\_container\_by\_id()}{restart\_container\_by\_id()}}
+{\footnotesize\ttfamily restart\+\_\+container\+\_\+by\+\_\+id (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to restart a container by its id
+
+This fuction uses the Docker SDK for Python to interact with the Docker daemon
+and restart a certain container. It is invoked by the GUI when the user requests a container restart.
+
+\param client (DockerClient) Docker Client instance
+
+\param container_id (str) The id of the container to restart
+
+\return (None)
+\end{DoxyVerb}
+ \Hypertarget{namespacedocker__ops_abc595b38b9b1525c75d52b1c4bc406ec}\label{namespacedocker__ops_abc595b38b9b1525c75d52b1c4bc406ec} 
+\index{docker\_ops@{docker\_ops}!apply\_tc\_rules@{apply\_tc\_rules}}
+\index{apply\_tc\_rules@{apply\_tc\_rules}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{apply\_tc\_rules()}{apply\_tc\_rules()}}
+{\footnotesize\ttfamily apply\+\_\+tc\+\_\+rules (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id,  }\item[{str}]{eth,  }\item[{str}]{delay,  }\item[{str}]{loss,  }\item[{str}]{band,  }\item[{str}]{limit }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to execute tc command inside a container to apply network emulation rules
+
+This fuction uses the Docker SDK for Python to interact with the Docker daemon
+and apply tc command to a certain container. 
+It is invoked by the GUI when the user requests a container restart.
+
+\param client (DockerClient) Docker Client instance
+
+\param container_id_ (str) The id of the container
+
+\param eth (str) The network interface name
+
+\param delay (str) The delay value in ms
+
+\param loss (str) The packet loss percentage
+
+\param band (str) The bandwidth limit in Mbit
+
+\param limit (str) The queue limit in packets
+
+\return (Docker.models.exec.ExecResult) The result of the command execution
+\end{DoxyVerb}
+ \Hypertarget{namespacedocker__ops_a40e6fad19320ab56a5d122697821fbe6}\label{namespacedocker__ops_a40e6fad19320ab56a5d122697821fbe6} 
+\index{docker\_ops@{docker\_ops}!run\_container\_ping@{run\_container\_ping}}
+\index{run\_container\_ping@{run\_container\_ping}!docker\_ops@{docker\_ops}}
+\doxysubsubsection{\texorpdfstring{run\_container\_ping()}{run\_container\_ping()}}
+{\footnotesize\ttfamily run\+\_\+container\+\_\+ping (\begin{DoxyParamCaption}\item[{Docker\+Client}]{client,  }\item[{str}]{container\+\_\+id,  }\item[{str}]{ipaddr }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to execute ping command inside a container to a specified IP address
+
+This fuction uses the Docker SDK for Python to interact with the Docker daemon
+and apply tc command to a certain container. 
+It is invoked by the GUI when the user requests a container restart.
+
+\param client (DockerClient) Docker Client instance
+
+\param container_id_ (str) The id of the container 
+
+\param ipaddr (str) The target IP address to ping
+
+\return (Docker.models.exec.ExecResult) The result of the command execution
+\end{DoxyVerb}
+ 

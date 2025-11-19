@@ -1,0 +1,140 @@
+\doxysection{config\+\_\+manager Namespace Reference}
+\hypertarget{namespaceconfig__manager}{}\label{namespaceconfig__manager}\index{config\_manager@{config\_manager}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceconfig__manager_ae3d4aaab9a2b138b21358b7604b7a67c}{get\+\_\+config\+\_\+dir}} ()
+\item 
+\mbox{\hyperlink{namespaceconfig__manager_a8549df48e5765f9635c1a83bedd77730}{load\+\_\+recent\+\_\+projects}} ()
+\item 
+\mbox{\hyperlink{namespaceconfig__manager_a04212effac4a8ef22836b6d6481cabc0}{save\+\_\+recent\+\_\+project}} (path)
+\item 
+\mbox{\hyperlink{namespaceconfig__manager_ad72ead29a967698bde1160f85056d1c1}{load\+\_\+configs}} (project\+\_\+name, container\+\_\+name)
+\item 
+\mbox{\hyperlink{namespaceconfig__manager_acbb8d36cf47162c9fbc1d003e4ec8deb}{save\+\_\+configs}} (project\+\_\+name, container\+\_\+name, interface, delay\+\_\+spinbox, loss\+\_\+spinbox, band\+\_\+spinbox, limit\+\_\+spinbox, win, config\+\_\+status, save\+\_\+btn, all\+\_\+container\+\_\+configs)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{namespaceconfig__manager_adf1fe76e2eccbdc32d1d5b9f52ca5aa3}{APP\+\_\+\+NAME}} = "{}DTG"{}
+\item 
+\mbox{\hyperlink{namespaceconfig__manager_a14c02f5d8fb9bde2b945ded24f97c836}{CONFIG\+\_\+\+DIR}} = \mbox{\hyperlink{namespaceconfig__manager_ae3d4aaab9a2b138b21358b7604b7a67c}{get\+\_\+config\+\_\+dir}}()
+\item 
+str \mbox{\hyperlink{namespaceconfig__manager_a395956be9a74b658b24195e5adb08e52}{RECENT\+\_\+\+PROJECTS\+\_\+\+FILE}} = \mbox{\hyperlink{namespaceconfig__manager_a14c02f5d8fb9bde2b945ded24f97c836}{CONFIG\+\_\+\+DIR}} / "{}recent\+\_\+projects.\+json"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}\file core/config_manager.py
+
+\brief Configuration management utility functions for DTG
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+    
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceconfig__manager_ae3d4aaab9a2b138b21358b7604b7a67c}\label{namespaceconfig__manager_ae3d4aaab9a2b138b21358b7604b7a67c} 
+\index{config\_manager@{config\_manager}!get\_config\_dir@{get\_config\_dir}}
+\index{get\_config\_dir@{get\_config\_dir}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{get\_config\_dir()}{get\_config\_dir()}}
+{\footnotesize\ttfamily get\+\_\+config\+\_\+dir (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\Hypertarget{namespaceconfig__manager_a8549df48e5765f9635c1a83bedd77730}\label{namespaceconfig__manager_a8549df48e5765f9635c1a83bedd77730} 
+\index{config\_manager@{config\_manager}!load\_recent\_projects@{load\_recent\_projects}}
+\index{load\_recent\_projects@{load\_recent\_projects}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{load\_recent\_projects()}{load\_recent\_projects()}}
+{\footnotesize\ttfamily load\+\_\+recent\+\_\+projects (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}    \brief Utility function to load recent projects from a file
+
+    \return (list) List of recent projects or empty list
+
+    \throws Exception If recent projects file is corrupted\end{DoxyVerb}
+ \Hypertarget{namespaceconfig__manager_a04212effac4a8ef22836b6d6481cabc0}\label{namespaceconfig__manager_a04212effac4a8ef22836b6d6481cabc0} 
+\index{config\_manager@{config\_manager}!save\_recent\_project@{save\_recent\_project}}
+\index{save\_recent\_project@{save\_recent\_project}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{save\_recent\_project()}{save\_recent\_project()}}
+{\footnotesize\ttfamily save\+\_\+recent\+\_\+project (\begin{DoxyParamCaption}\item[{}]{path }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}    \brief Utility function to save recent projects to a file
+
+    \param path (str) Path of the project to save
+
+    \return (void)\end{DoxyVerb}
+ \Hypertarget{namespaceconfig__manager_ad72ead29a967698bde1160f85056d1c1}\label{namespaceconfig__manager_ad72ead29a967698bde1160f85056d1c1} 
+\index{config\_manager@{config\_manager}!load\_configs@{load\_configs}}
+\index{load\_configs@{load\_configs}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{load\_configs()}{load\_configs()}}
+{\footnotesize\ttfamily load\+\_\+configs (\begin{DoxyParamCaption}\item[{}]{project\+\_\+name,  }\item[{}]{container\+\_\+name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to laod configs for a specific container from file
+
+\param project_name (str) The name of the project
+
+\param container_name (str) The name of the container
+
+\return (dict) Dictionary of configurations or empty dict
+\end{DoxyVerb}
+ \Hypertarget{namespaceconfig__manager_acbb8d36cf47162c9fbc1d003e4ec8deb}\label{namespaceconfig__manager_acbb8d36cf47162c9fbc1d003e4ec8deb} 
+\index{config\_manager@{config\_manager}!save\_configs@{save\_configs}}
+\index{save\_configs@{save\_configs}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{save\_configs()}{save\_configs()}}
+{\footnotesize\ttfamily save\+\_\+configs (\begin{DoxyParamCaption}\item[{}]{project\+\_\+name,  }\item[{}]{container\+\_\+name,  }\item[{}]{interface,  }\item[{}]{delay\+\_\+spinbox,  }\item[{}]{loss\+\_\+spinbox,  }\item[{}]{band\+\_\+spinbox,  }\item[{}]{limit\+\_\+spinbox,  }\item[{}]{win,  }\item[{}]{config\+\_\+status,  }\item[{}]{save\+\_\+btn,  }\item[{}]{all\+\_\+container\+\_\+configs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Utility function to laod configs for a specific container to file
+
+It requires project name, container name and the the current spinbox values.
+
+\return (dict) Dictionary of configurations or empty dict
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceconfig__manager_adf1fe76e2eccbdc32d1d5b9f52ca5aa3}\label{namespaceconfig__manager_adf1fe76e2eccbdc32d1d5b9f52ca5aa3} 
+\index{config\_manager@{config\_manager}!APP\_NAME@{APP\_NAME}}
+\index{APP\_NAME@{APP\_NAME}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{APP\_NAME}{APP\_NAME}}
+{\footnotesize\ttfamily str APP\+\_\+\+NAME = "{}DTG"{}}
+
+\Hypertarget{namespaceconfig__manager_a14c02f5d8fb9bde2b945ded24f97c836}\label{namespaceconfig__manager_a14c02f5d8fb9bde2b945ded24f97c836} 
+\index{config\_manager@{config\_manager}!CONFIG\_DIR@{CONFIG\_DIR}}
+\index{CONFIG\_DIR@{CONFIG\_DIR}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{CONFIG\_DIR}{CONFIG\_DIR}}
+{\footnotesize\ttfamily CONFIG\+\_\+\+DIR = \mbox{\hyperlink{namespaceconfig__manager_ae3d4aaab9a2b138b21358b7604b7a67c}{get\+\_\+config\+\_\+dir}}()}
+
+\Hypertarget{namespaceconfig__manager_a395956be9a74b658b24195e5adb08e52}\label{namespaceconfig__manager_a395956be9a74b658b24195e5adb08e52} 
+\index{config\_manager@{config\_manager}!RECENT\_PROJECTS\_FILE@{RECENT\_PROJECTS\_FILE}}
+\index{RECENT\_PROJECTS\_FILE@{RECENT\_PROJECTS\_FILE}!config\_manager@{config\_manager}}
+\doxysubsubsection{\texorpdfstring{RECENT\_PROJECTS\_FILE}{RECENT\_PROJECTS\_FILE}}
+{\footnotesize\ttfamily str RECENT\+\_\+\+PROJECTS\+\_\+\+FILE = \mbox{\hyperlink{namespaceconfig__manager_a14c02f5d8fb9bde2b945ded24f97c836}{CONFIG\+\_\+\+DIR}} / "{}recent\+\_\+projects.\+json"{}}
+

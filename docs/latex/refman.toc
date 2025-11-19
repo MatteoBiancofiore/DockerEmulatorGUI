@@ -1,0 +1,216 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}DTG (DTN Testbed GUI)}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Main Features}{1}{section.1.1}%
+\contentsline {section}{\numberline {1.2}File Structure}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.3}DTG -\/ Setup Guide}{1}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}System Requirements}{2}{subsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.1.1}1. Docker}{2}{subsubsection.1.3.1.1}%
+\contentsline {subsubsection}{\numberline {1.3.1.2}2. Python}{2}{subsubsection.1.3.1.2}%
+\contentsline {subsubsection}{\numberline {1.3.1.3}3. Python Libraries}{2}{subsubsection.1.3.1.3}%
+\contentsline {subsection}{\numberline {1.3.2}Install Docker and Docker Compose}{2}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}GUI installation}{2}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Linux installation (\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Debian/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Ubuntu-\/based)}{2}{subsection.1.4.1}%
+\contentsline {subsubsection}{\numberline {1.4.1.1}Step 1\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Install Python, tkinter, and pip}{2}{subsubsection.1.4.1.1}%
+\contentsline {subsubsection}{\numberline {1.4.1.2}Step 2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Install required libraries}{2}{subsubsection.1.4.1.2}%
+\contentsline {paragraph}{Virtual environment}{2}{section*.1}%
+\contentsline {paragraph}{Global installation}{3}{section*.2}%
+\contentsline {subsubsection}{\numberline {1.4.1.3}Step 3\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Give the user the permission needed for Docker}{3}{subsubsection.1.4.1.3}%
+\contentsline {subsection}{\numberline {1.4.2}Windows Installation}{3}{subsection.1.4.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.1}Step 1\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Download Python}{3}{subsubsection.1.4.2.1}%
+\contentsline {subsubsection}{\numberline {1.4.2.2}Step 2\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Install Python, tkinter and pip should be included}{3}{subsubsection.1.4.2.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.3}Step 3\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Verify Python Installation}{3}{subsubsection.1.4.2.3}%
+\contentsline {subsubsection}{\numberline {1.4.2.4}Step 4\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Install required libraries}{3}{subsubsection.1.4.2.4}%
+\contentsline {subsection}{\numberline {1.4.3}Mac\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}OS installation}{3}{subsection.1.4.3}%
+\contentsline {subsubsection}{\numberline {1.4.3.1}Step 1\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: Download and install python}{3}{subsubsection.1.4.3.1}%
+\contentsline {section}{\numberline {1.5}Running the GUI}{3}{section.1.5}%
+\contentsline {subsubsection}{\numberline {1.5.0.1}Linux}{4}{subsubsection.1.5.0.1}%
+\contentsline {chapter}{\numberline {2}Namespace Index}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Package List}{5}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Hierarchical Index}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Class Hierarchy}{7}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Class Index}{9}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Class List}{9}{section.4.1}%
+\contentsline {chapter}{\numberline {5}File Index}{11}{chapter.5}%
+\contentsline {section}{\numberline {5.1}File List}{11}{section.5.1}%
+\contentsline {chapter}{\numberline {6}Namespace Documentation}{13}{chapter.6}%
+\contentsline {section}{\numberline {6.1}app Namespace Reference}{13}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Detailed Description}{13}{subsection.6.1.1}%
+\contentsline {section}{\numberline {6.2}assets Namespace Reference}{13}{section.6.2}%
+\contentsline {subsection}{\numberline {6.2.1}Detailed Description}{14}{subsection.6.2.1}%
+\contentsline {subsection}{\numberline {6.2.2}Function Documentation}{14}{subsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.2.1}load\_image()}{14}{subsubsection.6.2.2.1}%
+\contentsline {subsection}{\numberline {6.2.3}Variable Documentation}{14}{subsection.6.2.3}%
+\contentsline {subsubsection}{\numberline {6.2.3.1}BASE\_DIR}{14}{subsubsection.6.2.3.1}%
+\contentsline {subsubsection}{\numberline {6.2.3.2}IMAGE\_DIR}{14}{subsubsection.6.2.3.2}%
+\contentsline {section}{\numberline {6.3}config\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager Namespace Reference}{14}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Detailed Description}{15}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Function Documentation}{15}{subsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.1}get\_config\_dir()}{15}{subsubsection.6.3.2.1}%
+\contentsline {subsubsection}{\numberline {6.3.2.2}load\_recent\_projects()}{15}{subsubsection.6.3.2.2}%
+\contentsline {subsubsection}{\numberline {6.3.2.3}save\_recent\_project()}{16}{subsubsection.6.3.2.3}%
+\contentsline {subsubsection}{\numberline {6.3.2.4}load\_configs()}{16}{subsubsection.6.3.2.4}%
+\contentsline {subsubsection}{\numberline {6.3.2.5}save\_configs()}{16}{subsubsection.6.3.2.5}%
+\contentsline {subsection}{\numberline {6.3.3}Variable Documentation}{16}{subsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.3.1}APP\_NAME}{16}{subsubsection.6.3.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.3.2}CONFIG\_DIR}{16}{subsubsection.6.3.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3.3}RECENT\_PROJECTS\_FILE}{16}{subsubsection.6.3.3.3}%
+\contentsline {section}{\numberline {6.4}docker\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ops Namespace Reference}{17}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Detailed Description}{17}{subsection.6.4.1}%
+\contentsline {subsection}{\numberline {6.4.2}Function Documentation}{17}{subsection.6.4.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.1}get\_container()}{17}{subsubsection.6.4.2.1}%
+\contentsline {subsubsection}{\numberline {6.4.2.2}get\_project\_containers()}{17}{subsubsection.6.4.2.2}%
+\contentsline {subsubsection}{\numberline {6.4.2.3}get\_container\_interfaces()}{18}{subsubsection.6.4.2.3}%
+\contentsline {subsubsection}{\numberline {6.4.2.4}start\_container\_by\_id()}{18}{subsubsection.6.4.2.4}%
+\contentsline {subsubsection}{\numberline {6.4.2.5}stop\_container\_by\_id()}{18}{subsubsection.6.4.2.5}%
+\contentsline {subsubsection}{\numberline {6.4.2.6}restart\_container\_by\_id()}{18}{subsubsection.6.4.2.6}%
+\contentsline {subsubsection}{\numberline {6.4.2.7}apply\_tc\_rules()}{19}{subsubsection.6.4.2.7}%
+\contentsline {subsubsection}{\numberline {6.4.2.8}run\_container\_ping()}{19}{subsubsection.6.4.2.8}%
+\contentsline {section}{\numberline {6.5}lock\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager Namespace Reference}{20}{section.6.5}%
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{20}{subsection.6.5.1}%
+\contentsline {section}{\numberline {6.6}main Namespace Reference}{20}{section.6.6}%
+\contentsline {subsection}{\numberline {6.6.1}Detailed Description}{20}{subsection.6.6.1}%
+\contentsline {subsection}{\numberline {6.6.2}Variable Documentation}{21}{subsection.6.6.2}%
+\contentsline {subsubsection}{\numberline {6.6.2.1}root}{21}{subsubsection.6.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.6.2.2}app}{21}{subsubsection.6.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.6.2.3}file}{21}{subsubsection.6.6.2.3}%
+\contentsline {section}{\numberline {6.7}main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}window Namespace Reference}{21}{section.6.7}%
+\contentsline {subsection}{\numberline {6.7.1}Detailed Description}{21}{subsection.6.7.1}%
+\contentsline {section}{\numberline {6.8}node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}window Namespace Reference}{22}{section.6.8}%
+\contentsline {subsection}{\numberline {6.8.1}Detailed Description}{22}{subsection.6.8.1}%
+\contentsline {section}{\numberline {6.9}startup\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}window Namespace Reference}{22}{section.6.9}%
+\contentsline {subsection}{\numberline {6.9.1}Detailed Description}{22}{subsection.6.9.1}%
+\contentsline {subsection}{\numberline {6.9.2}Function Documentation}{23}{subsection.6.9.2}%
+\contentsline {subsubsection}{\numberline {6.9.2.1}choose\_project\_popup()}{23}{subsubsection.6.9.2.1}%
+\contentsline {section}{\numberline {6.10}system\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ops Namespace Reference}{23}{section.6.10}%
+\contentsline {subsection}{\numberline {6.10.1}Detailed Description}{23}{subsection.6.10.1}%
+\contentsline {subsection}{\numberline {6.10.2}Function Documentation}{24}{subsection.6.10.2}%
+\contentsline {subsubsection}{\numberline {6.10.2.1}exec\_compose()}{24}{subsubsection.6.10.2.1}%
+\contentsline {subsubsection}{\numberline {6.10.2.2}open\_terminal()}{24}{subsubsection.6.10.2.2}%
+\contentsline {chapter}{\numberline {7}Class Documentation}{25}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Compose\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Not\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Found\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Error Class Reference}{25}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Docker\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Compose\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Error Class Reference}{25}{section.7.2}%
+\contentsline {section}{\numberline {7.3}DTGApp Class Reference}{26}{section.7.3}%
+\contentsline {subsection}{\numberline {7.3.1}Detailed Description}{26}{subsection.7.3.1}%
+\contentsline {subsection}{\numberline {7.3.2}Constructor \& Destructor Documentation}{26}{subsection.7.3.2}%
+\contentsline {subsubsection}{\numberline {7.3.2.1}\_\_init\_\_()}{26}{subsubsection.7.3.2.1}%
+\contentsline {subsection}{\numberline {7.3.3}Member Function Documentation}{27}{subsection.7.3.3}%
+\contentsline {subsubsection}{\numberline {7.3.3.1}run()}{27}{subsubsection.7.3.3.1}%
+\contentsline {subsubsection}{\numberline {7.3.3.2}\_run\_startup()}{27}{subsubsection.7.3.3.2}%
+\contentsline {subsubsection}{\numberline {7.3.3.3}open\_container\_window()}{27}{subsubsection.7.3.3.3}%
+\contentsline {subsubsection}{\numberline {7.3.3.4}show\_exiting\_popup()}{27}{subsubsection.7.3.3.4}%
+\contentsline {subsubsection}{\numberline {7.3.3.5}on\_main\_window\_close()}{27}{subsubsection.7.3.3.5}%
+\contentsline {subsection}{\numberline {7.3.4}Member Data Documentation}{27}{subsection.7.3.4}%
+\contentsline {subsubsection}{\numberline {7.3.4.1}root}{27}{subsubsection.7.3.4.1}%
+\contentsline {subsubsection}{\numberline {7.3.4.2}open\_windows}{27}{subsubsection.7.3.4.2}%
+\contentsline {subsubsection}{\numberline {7.3.4.3}open\_terminals}{27}{subsubsection.7.3.4.3}%
+\contentsline {subsubsection}{\numberline {7.3.4.4}lock\_manager}{27}{subsubsection.7.3.4.4}%
+\contentsline {subsubsection}{\numberline {7.3.4.5}project\_name}{27}{subsubsection.7.3.4.5}%
+\contentsline {subsubsection}{\numberline {7.3.4.6}compose\_file}{28}{subsubsection.7.3.4.6}%
+\contentsline {subsubsection}{\numberline {7.3.4.7}client}{28}{subsubsection.7.3.4.7}%
+\contentsline {subsubsection}{\numberline {7.3.4.8}running\_icon}{28}{subsubsection.7.3.4.8}%
+\contentsline {subsubsection}{\numberline {7.3.4.9}exited\_icon}{28}{subsubsection.7.3.4.9}%
+\contentsline {subsubsection}{\numberline {7.3.4.10}other\_icon}{28}{subsubsection.7.3.4.10}%
+\contentsline {subsubsection}{\numberline {7.3.4.11}refresh\_icon}{28}{subsubsection.7.3.4.11}%
+\contentsline {subsubsection}{\numberline {7.3.4.12}start\_icon}{28}{subsubsection.7.3.4.12}%
+\contentsline {subsubsection}{\numberline {7.3.4.13}stop\_icon}{28}{subsubsection.7.3.4.13}%
+\contentsline {subsubsection}{\numberline {7.3.4.14}folder\_icon}{28}{subsubsection.7.3.4.14}%
+\contentsline {subsubsection}{\numberline {7.3.4.15}open\_icon}{28}{subsubsection.7.3.4.15}%
+\contentsline {subsubsection}{\numberline {7.3.4.16}exit\_icon}{28}{subsubsection.7.3.4.16}%
+\contentsline {subsubsection}{\numberline {7.3.4.17}main\_window}{28}{subsubsection.7.3.4.17}%
+\contentsline {subsubsection}{\numberline {7.3.4.18}on\_main\_window\_close}{28}{subsubsection.7.3.4.18}%
+\contentsline {section}{\numberline {7.4}Main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Window Class Reference}{29}{section.7.4}%
+\contentsline {subsection}{\numberline {7.4.1}Detailed Description}{30}{subsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.4.2}Constructor \& Destructor Documentation}{30}{subsection.7.4.2}%
+\contentsline {subsubsection}{\numberline {7.4.2.1}\_\_init\_\_()}{30}{subsubsection.7.4.2.1}%
+\contentsline {subsection}{\numberline {7.4.3}Member Function Documentation}{30}{subsection.7.4.3}%
+\contentsline {subsubsection}{\numberline {7.4.3.1}\_build\_main\_ui()}{30}{subsubsection.7.4.3.1}%
+\contentsline {subsubsection}{\numberline {7.4.3.2}refresh\_containers()}{30}{subsubsection.7.4.3.2}%
+\contentsline {subsubsection}{\numberline {7.4.3.3}start\_container()}{30}{subsubsection.7.4.3.3}%
+\contentsline {subsubsection}{\numberline {7.4.3.4}stop\_container()}{31}{subsubsection.7.4.3.4}%
+\contentsline {subsubsection}{\numberline {7.4.3.5}restart\_container()}{31}{subsubsection.7.4.3.5}%
+\contentsline {subsubsection}{\numberline {7.4.3.6}start\_all\_containers()}{31}{subsubsection.7.4.3.6}%
+\contentsline {subsubsection}{\numberline {7.4.3.7}stop\_all\_containers()}{31}{subsubsection.7.4.3.7}%
+\contentsline {subsubsection}{\numberline {7.4.3.8}open\_terminal()}{31}{subsubsection.7.4.3.8}%
+\contentsline {subsubsection}{\numberline {7.4.3.9}show\_context\_menu()}{32}{subsubsection.7.4.3.9}%
+\contentsline {subsubsection}{\numberline {7.4.3.10}close\_context\_menu()}{32}{subsubsection.7.4.3.10}%
+\contentsline {subsubsection}{\numberline {7.4.3.11}set\_buttons\_state()}{32}{subsubsection.7.4.3.11}%
+\contentsline {subsubsection}{\numberline {7.4.3.12}reset\_operation\_flag()}{32}{subsubsection.7.4.3.12}%
+\contentsline {subsubsection}{\numberline {7.4.3.13}on\_tree\_select()}{32}{subsubsection.7.4.3.13}%
+\contentsline {subsection}{\numberline {7.4.4}Member Data Documentation}{32}{subsection.7.4.4}%
+\contentsline {subsubsection}{\numberline {7.4.4.1}parent}{32}{subsubsection.7.4.4.1}%
+\contentsline {subsubsection}{\numberline {7.4.4.2}controller}{32}{subsubsection.7.4.4.2}%
+\contentsline {subsubsection}{\numberline {7.4.4.3}tree}{32}{subsubsection.7.4.4.3}%
+\contentsline {subsubsection}{\numberline {7.4.4.4}refresh\_btn}{32}{subsubsection.7.4.4.4}%
+\contentsline {subsubsection}{\numberline {7.4.4.5}start\_button}{32}{subsubsection.7.4.4.5}%
+\contentsline {subsubsection}{\numberline {7.4.4.6}stop\_button}{32}{subsubsection.7.4.4.6}%
+\contentsline {subsubsection}{\numberline {7.4.4.7}context\_menu}{32}{subsubsection.7.4.4.7}%
+\contentsline {subsubsection}{\numberline {7.4.4.8}on\_tree\_select}{33}{subsubsection.7.4.4.8}%
+\contentsline {subsubsection}{\numberline {7.4.4.9}show\_context\_menu}{33}{subsubsection.7.4.4.9}%
+\contentsline {subsubsection}{\numberline {7.4.4.10}close\_context\_menu}{33}{subsubsection.7.4.4.10}%
+\contentsline {subsubsection}{\numberline {7.4.4.11}reset\_operation\_flag}{33}{subsubsection.7.4.4.11}%
+\contentsline {subsubsection}{\numberline {7.4.4.12}refresh\_containers}{33}{subsubsection.7.4.4.12}%
+\contentsline {section}{\numberline {7.5}Node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Window Class Reference}{33}{section.7.5}%
+\contentsline {subsection}{\numberline {7.5.1}Detailed Description}{34}{subsection.7.5.1}%
+\contentsline {subsection}{\numberline {7.5.2}Constructor \& Destructor Documentation}{34}{subsection.7.5.2}%
+\contentsline {subsubsection}{\numberline {7.5.2.1}\_\_init\_\_()}{34}{subsubsection.7.5.2.1}%
+\contentsline {subsection}{\numberline {7.5.3}Member Function Documentation}{34}{subsection.7.5.3}%
+\contentsline {subsubsection}{\numberline {7.5.3.1}\_build\_ui()}{34}{subsubsection.7.5.3.1}%
+\contentsline {subsubsection}{\numberline {7.5.3.2}\_update\_spinboxes\_for\_interface()}{35}{subsubsection.7.5.3.2}%
+\contentsline {subsubsection}{\numberline {7.5.3.3}\_on\_close()}{35}{subsubsection.7.5.3.3}%
+\contentsline {subsubsection}{\numberline {7.5.3.4}\_force\_close()}{35}{subsubsection.7.5.3.4}%
+\contentsline {subsubsection}{\numberline {7.5.3.5}\_set\_config\_dirty()}{35}{subsubsection.7.5.3.5}%
+\contentsline {subsubsection}{\numberline {7.5.3.6}\_save\_configs\_action()}{35}{subsubsection.7.5.3.6}%
+\contentsline {subsubsection}{\numberline {7.5.3.7}\_toggle\_console()}{36}{subsubsection.7.5.3.7}%
+\contentsline {subsubsection}{\numberline {7.5.3.8}\_clear\_focus()}{36}{subsubsection.7.5.3.8}%
+\contentsline {subsubsection}{\numberline {7.5.3.9}clear\_console()}{36}{subsubsection.7.5.3.9}%
+\contentsline {subsubsection}{\numberline {7.5.3.10}do\_tc()}{36}{subsubsection.7.5.3.10}%
+\contentsline {subsubsection}{\numberline {7.5.3.11}do\_ping()}{36}{subsubsection.7.5.3.11}%
+\contentsline {subsection}{\numberline {7.5.4}Member Data Documentation}{36}{subsection.7.5.4}%
+\contentsline {subsubsection}{\numberline {7.5.4.1}controller}{36}{subsubsection.7.5.4.1}%
+\contentsline {subsubsection}{\numberline {7.5.4.2}container\_name}{36}{subsubsection.7.5.4.2}%
+\contentsline {subsubsection}{\numberline {7.5.4.3}config\_status}{36}{subsubsection.7.5.4.3}%
+\contentsline {subsubsection}{\numberline {7.5.4.4}current\_iface\_tracker}{36}{subsubsection.7.5.4.4}%
+\contentsline {subsubsection}{\numberline {7.5.4.5}all\_container\_configs}{37}{subsubsection.7.5.4.5}%
+\contentsline {subsubsection}{\numberline {7.5.4.6}\_clear\_focus}{37}{subsubsection.7.5.4.6}%
+\contentsline {subsubsection}{\numberline {7.5.4.7}\_on\_close}{37}{subsubsection.7.5.4.7}%
+\contentsline {subsubsection}{\numberline {7.5.4.8}force\_close}{37}{subsubsection.7.5.4.8}%
+\contentsline {subsubsection}{\numberline {7.5.4.9}interface\_var}{37}{subsubsection.7.5.4.9}%
+\contentsline {subsubsection}{\numberline {7.5.4.10}\_update\_spinboxes\_for\_interface}{37}{subsubsection.7.5.4.10}%
+\contentsline {subsubsection}{\numberline {7.5.4.11}delay\_spinbox}{37}{subsubsection.7.5.4.11}%
+\contentsline {subsubsection}{\numberline {7.5.4.12}loss\_spinbox}{37}{subsubsection.7.5.4.12}%
+\contentsline {subsubsection}{\numberline {7.5.4.13}band\_spinbox}{37}{subsubsection.7.5.4.13}%
+\contentsline {subsubsection}{\numberline {7.5.4.14}limit\_spinbox}{37}{subsubsection.7.5.4.14}%
+\contentsline {subsubsection}{\numberline {7.5.4.15}save\_btn}{37}{subsubsection.7.5.4.15}%
+\contentsline {subsubsection}{\numberline {7.5.4.16}\_set\_config\_dirty}{37}{subsubsection.7.5.4.16}%
+\contentsline {subsubsection}{\numberline {7.5.4.17}ipaddr\_entry}{37}{subsubsection.7.5.4.17}%
+\contentsline {subsubsection}{\numberline {7.5.4.18}ping\_btn}{37}{subsubsection.7.5.4.18}%
+\contentsline {subsubsection}{\numberline {7.5.4.19}toggle\_btn}{37}{subsubsection.7.5.4.19}%
+\contentsline {subsubsection}{\numberline {7.5.4.20}console\_frame}{38}{subsubsection.7.5.4.20}%
+\contentsline {subsubsection}{\numberline {7.5.4.21}output\_box}{38}{subsubsection.7.5.4.21}%
+\contentsline {subsubsection}{\numberline {7.5.4.22}show\_console}{38}{subsubsection.7.5.4.22}%
+\contentsline {section}{\numberline {7.6}Operation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Lock Class Reference}{38}{section.7.6}%
+\contentsline {subsection}{\numberline {7.6.1}Detailed Description}{38}{subsection.7.6.1}%
+\contentsline {subsection}{\numberline {7.6.2}Constructor \& Destructor Documentation}{38}{subsection.7.6.2}%
+\contentsline {subsubsection}{\numberline {7.6.2.1}\_\_init\_\_()}{38}{subsubsection.7.6.2.1}%
+\contentsline {subsection}{\numberline {7.6.3}Member Function Documentation}{38}{subsection.7.6.3}%
+\contentsline {subsubsection}{\numberline {7.6.3.1}lock()}{38}{subsubsection.7.6.3.1}%
+\contentsline {subsubsection}{\numberline {7.6.3.2}unlock()}{38}{subsubsection.7.6.3.2}%
+\contentsline {subsubsection}{\numberline {7.6.3.3}is\_locked()}{39}{subsubsection.7.6.3.3}%
+\contentsline {subsubsection}{\numberline {7.6.3.4}has\_active\_locks()}{39}{subsubsection.7.6.3.4}%
+\contentsline {subsection}{\numberline {7.6.4}Member Data Documentation}{39}{subsection.7.6.4}%
+\contentsline {subsubsection}{\numberline {7.6.4.1}\_locks}{39}{subsubsection.7.6.4.1}%
+\contentsline {section}{\numberline {7.7}Terminal\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Error Class Reference}{39}{section.7.7}%
+\contentsline {chapter}{\numberline {8}File Documentation}{41}{chapter.8}%
+\contentsline {section}{\numberline {8.1}app.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{41}{section.8.1}%
+\contentsline {section}{\numberline {8.2}core/config\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.py File Reference}{41}{section.8.2}%
+\contentsline {section}{\numberline {8.3}core/docker\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ops.py File Reference}{41}{section.8.3}%
+\contentsline {section}{\numberline {8.4}core/system\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ops.py File Reference}{42}{section.8.4}%
+\contentsline {section}{\numberline {8.5}Doxyfile.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txt File Reference}{42}{section.8.5}%
+\contentsline {section}{\numberline {8.6}gui/assets.py File Reference}{42}{section.8.6}%
+\contentsline {section}{\numberline {8.7}gui/main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}window.py File Reference}{42}{section.8.7}%
+\contentsline {section}{\numberline {8.8}gui/node\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}window.py File Reference}{42}{section.8.8}%
+\contentsline {section}{\numberline {8.9}gui/startup\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}window.py File Reference}{43}{section.8.9}%
+\contentsline {section}{\numberline {8.10}main.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}py File Reference}{43}{section.8.10}%
+\contentsline {section}{\numberline {8.11}README.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}md File Reference}{43}{section.8.11}%
+\contentsline {section}{\numberline {8.12}requirements.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}txt File Reference}{43}{section.8.12}%
+\contentsline {section}{\numberline {8.13}utils/lock\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.py File Reference}{43}{section.8.13}%

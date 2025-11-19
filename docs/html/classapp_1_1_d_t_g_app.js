@@ -1,0 +1,27 @@
+var classapp_1_1_d_t_g_app =
+[
+    [ "__init__", "classapp_1_1_d_t_g_app.html#a8cf9d1b9b3a696beecbe4b774a46b8e6", null ],
+    [ "run", "classapp_1_1_d_t_g_app.html#a08060e0924949738f75a0cdd8b49cef4", null ],
+    [ "_run_startup", "classapp_1_1_d_t_g_app.html#a32841c248f859c85d53115ea6c215562", null ],
+    [ "open_container_window", "classapp_1_1_d_t_g_app.html#a1d901dc345e826200041506d60307b7f", null ],
+    [ "show_exiting_popup", "classapp_1_1_d_t_g_app.html#a75a4cd5b1376dad39ece5a2424f5f6b2", null ],
+    [ "on_main_window_close", "classapp_1_1_d_t_g_app.html#ac9eaa37a035d76da54a3f6d8a0cff9f1", null ],
+    [ "root", "classapp_1_1_d_t_g_app.html#ab4b8daf4b8ea9d39568719e1e320076f", null ],
+    [ "open_windows", "classapp_1_1_d_t_g_app.html#ad340f4240831d852088da9a62400964b", null ],
+    [ "open_terminals", "classapp_1_1_d_t_g_app.html#add75e08f07ab1cc38842b20b59bc90f7", null ],
+    [ "lock_manager", "classapp_1_1_d_t_g_app.html#a064bada4fcac9243f84e00cb8e802479", null ],
+    [ "project_name", "classapp_1_1_d_t_g_app.html#a398a5337bd43be0a5fe435dc3c414507", null ],
+    [ "compose_file", "classapp_1_1_d_t_g_app.html#a19cfc44548ada2ca42deaceb0c4e8486", null ],
+    [ "client", "classapp_1_1_d_t_g_app.html#ad5bc32b75da65fe60067f501a4bb6665", null ],
+    [ "running_icon", "classapp_1_1_d_t_g_app.html#acbbe8b7fd69dd0431913e16d9d44c3a8", null ],
+    [ "exited_icon", "classapp_1_1_d_t_g_app.html#a9a44f7e27d6b796ccd38dcf8e9469b5c", null ],
+    [ "other_icon", "classapp_1_1_d_t_g_app.html#afdfb13bca546849ccf6fd9a0a444ee0a", null ],
+    [ "refresh_icon", "classapp_1_1_d_t_g_app.html#a1f73069c71ffccf84365007f1f7d575b", null ],
+    [ "start_icon", "classapp_1_1_d_t_g_app.html#a5b2875de4cc051e1f6ee6bdaf62d74aa", null ],
+    [ "stop_icon", "classapp_1_1_d_t_g_app.html#a90e5acf75a68fcfb9e4ddc5a54752c31", null ],
+    [ "folder_icon", "classapp_1_1_d_t_g_app.html#a9c2396d9ab8256732b778d3cb0c36b43", null ],
+    [ "open_icon", "classapp_1_1_d_t_g_app.html#aeaf6fe9762b8c95026a79dfc4abb0d4d", null ],
+    [ "exit_icon", "classapp_1_1_d_t_g_app.html#aa6686193eb2fb53af6b86e6e058d6bb9", null ],
+    [ "main_window", "classapp_1_1_d_t_g_app.html#a5a30158e8135a44474e5fa03d461dca5", null ],
+    [ "on_main_window_close", "classapp_1_1_d_t_g_app.html#a1ed3c017ad9bd76018df7902db103a25", null ]
+];

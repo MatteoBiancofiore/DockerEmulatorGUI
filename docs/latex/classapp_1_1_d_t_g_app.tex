@@ -1,0 +1,243 @@
+\doxysection{DTGApp Class Reference}
+\hypertarget{classapp_1_1_d_t_g_app}{}\label{classapp_1_1_d_t_g_app}\index{DTGApp@{DTGApp}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a8cf9d1b9b3a696beecbe4b774a46b8e6}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classapp_1_1_d_t_g_app_ab4b8daf4b8ea9d39568719e1e320076f}{root}})
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a08060e0924949738f75a0cdd8b49cef4}{run}} (self)
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a1d901dc345e826200041506d60307b7f}{open\+\_\+container\+\_\+window}} (self, container\+\_\+name)
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a75a4cd5b1376dad39ece5a2424f5f6b2}{show\+\_\+exiting\+\_\+popup}} (self)
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_ac9eaa37a035d76da54a3f6d8a0cff9f1}{on\+\_\+main\+\_\+window\+\_\+close}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_ab4b8daf4b8ea9d39568719e1e320076f}{root}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_ad340f4240831d852088da9a62400964b}{open\+\_\+windows}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_add75e08f07ab1cc38842b20b59bc90f7}{open\+\_\+terminals}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a064bada4fcac9243f84e00cb8e802479}{lock\+\_\+manager}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a398a5337bd43be0a5fe435dc3c414507}{project\+\_\+name}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a19cfc44548ada2ca42deaceb0c4e8486}{compose\+\_\+file}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_ad5bc32b75da65fe60067f501a4bb6665}{client}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_acbbe8b7fd69dd0431913e16d9d44c3a8}{running\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a9a44f7e27d6b796ccd38dcf8e9469b5c}{exited\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_afdfb13bca546849ccf6fd9a0a444ee0a}{other\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a1f73069c71ffccf84365007f1f7d575b}{refresh\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a5b2875de4cc051e1f6ee6bdaf62d74aa}{start\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a90e5acf75a68fcfb9e4ddc5a54752c31}{stop\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a9c2396d9ab8256732b778d3cb0c36b43}{folder\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_aeaf6fe9762b8c95026a79dfc4abb0d4d}{open\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_aa6686193eb2fb53af6b86e6e058d6bb9}{exit\+\_\+icon}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a5a30158e8135a44474e5fa03d461dca5}{main\+\_\+window}}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a1ed3c017ad9bd76018df7902db103a25}{on\+\_\+main\+\_\+window\+\_\+close}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classapp_1_1_d_t_g_app_a32841c248f859c85d53115ea6c215562}{\+\_\+run\+\_\+startup}} (self)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}\brief Main Controller that handle DTG lifecycle.
+
+The DTGApp class is responsible for initializing the environment, 
+connecting to Docker daemon and coordinating between MainWindow
+and individual nodes windows.
+
+Its purpose is to store the app's state which includes:
+- Docker client.
+- Active docker-compose file.
+- List of open windows.
+- Lock for asynchronous operations.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classapp_1_1_d_t_g_app_a8cf9d1b9b3a696beecbe4b774a46b8e6}\label{classapp_1_1_d_t_g_app_a8cf9d1b9b3a696beecbe4b774a46b8e6} 
+\index{DTGApp@{DTGApp}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{root }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classapp_1_1_d_t_g_app_a08060e0924949738f75a0cdd8b49cef4}\label{classapp_1_1_d_t_g_app_a08060e0924949738f75a0cdd8b49cef4} 
+\index{DTGApp@{DTGApp}!run@{run}}
+\index{run@{run}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily run (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a32841c248f859c85d53115ea6c215562}\label{classapp_1_1_d_t_g_app_a32841c248f859c85d53115ea6c215562} 
+\index{DTGApp@{DTGApp}!\_run\_startup@{\_run\_startup}}
+\index{\_run\_startup@{\_run\_startup}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{\_run\_startup()}{\_run\_startup()}}
+{\footnotesize\ttfamily \+\_\+run\+\_\+startup (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a1d901dc345e826200041506d60307b7f}\label{classapp_1_1_d_t_g_app_a1d901dc345e826200041506d60307b7f} 
+\index{DTGApp@{DTGApp}!open\_container\_window@{open\_container\_window}}
+\index{open\_container\_window@{open\_container\_window}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{open\_container\_window()}{open\_container\_window()}}
+{\footnotesize\ttfamily open\+\_\+container\+\_\+window (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{container\+\_\+name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Open a new window for the given container.
+
+This method checks if the container is running, if a window
+for the container is already open, and if the container is locked.
+If all checks pass, it creates a new NodeWindow for the container
+and tracks it in the open_windows dictionary.
+
+\param container_name The name of the container to open the window for.
+
+\return None
+\end{DoxyVerb}
+ \Hypertarget{classapp_1_1_d_t_g_app_a75a4cd5b1376dad39ece5a2424f5f6b2}\label{classapp_1_1_d_t_g_app_a75a4cd5b1376dad39ece5a2424f5f6b2} 
+\index{DTGApp@{DTGApp}!show\_exiting\_popup@{show\_exiting\_popup}}
+\index{show\_exiting\_popup@{show\_exiting\_popup}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{show\_exiting\_popup()}{show\_exiting\_popup()}}
+{\footnotesize\ttfamily show\+\_\+exiting\+\_\+popup (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\Hypertarget{classapp_1_1_d_t_g_app_ac9eaa37a035d76da54a3f6d8a0cff9f1}\label{classapp_1_1_d_t_g_app_ac9eaa37a035d76da54a3f6d8a0cff9f1} 
+\index{DTGApp@{DTGApp}!on\_main\_window\_close@{on\_main\_window\_close}}
+\index{on\_main\_window\_close@{on\_main\_window\_close}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{on\_main\_window\_close()}{on\_main\_window\_close()}}
+{\footnotesize\ttfamily on\+\_\+main\+\_\+window\+\_\+close (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classapp_1_1_d_t_g_app_ab4b8daf4b8ea9d39568719e1e320076f}\label{classapp_1_1_d_t_g_app_ab4b8daf4b8ea9d39568719e1e320076f} 
+\index{DTGApp@{DTGApp}!root@{root}}
+\index{root@{root}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{root}{root}}
+{\footnotesize\ttfamily root}
+
+\Hypertarget{classapp_1_1_d_t_g_app_ad340f4240831d852088da9a62400964b}\label{classapp_1_1_d_t_g_app_ad340f4240831d852088da9a62400964b} 
+\index{DTGApp@{DTGApp}!open\_windows@{open\_windows}}
+\index{open\_windows@{open\_windows}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{open\_windows}{open\_windows}}
+{\footnotesize\ttfamily open\+\_\+windows}
+
+\Hypertarget{classapp_1_1_d_t_g_app_add75e08f07ab1cc38842b20b59bc90f7}\label{classapp_1_1_d_t_g_app_add75e08f07ab1cc38842b20b59bc90f7} 
+\index{DTGApp@{DTGApp}!open\_terminals@{open\_terminals}}
+\index{open\_terminals@{open\_terminals}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{open\_terminals}{open\_terminals}}
+{\footnotesize\ttfamily open\+\_\+terminals}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a064bada4fcac9243f84e00cb8e802479}\label{classapp_1_1_d_t_g_app_a064bada4fcac9243f84e00cb8e802479} 
+\index{DTGApp@{DTGApp}!lock\_manager@{lock\_manager}}
+\index{lock\_manager@{lock\_manager}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{lock\_manager}{lock\_manager}}
+{\footnotesize\ttfamily lock\+\_\+manager}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a398a5337bd43be0a5fe435dc3c414507}\label{classapp_1_1_d_t_g_app_a398a5337bd43be0a5fe435dc3c414507} 
+\index{DTGApp@{DTGApp}!project\_name@{project\_name}}
+\index{project\_name@{project\_name}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{project\_name}{project\_name}}
+{\footnotesize\ttfamily project\+\_\+name}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a19cfc44548ada2ca42deaceb0c4e8486}\label{classapp_1_1_d_t_g_app_a19cfc44548ada2ca42deaceb0c4e8486} 
+\index{DTGApp@{DTGApp}!compose\_file@{compose\_file}}
+\index{compose\_file@{compose\_file}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{compose\_file}{compose\_file}}
+{\footnotesize\ttfamily compose\+\_\+file}
+
+\Hypertarget{classapp_1_1_d_t_g_app_ad5bc32b75da65fe60067f501a4bb6665}\label{classapp_1_1_d_t_g_app_ad5bc32b75da65fe60067f501a4bb6665} 
+\index{DTGApp@{DTGApp}!client@{client}}
+\index{client@{client}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{client}{client}}
+{\footnotesize\ttfamily client}
+
+\Hypertarget{classapp_1_1_d_t_g_app_acbbe8b7fd69dd0431913e16d9d44c3a8}\label{classapp_1_1_d_t_g_app_acbbe8b7fd69dd0431913e16d9d44c3a8} 
+\index{DTGApp@{DTGApp}!running\_icon@{running\_icon}}
+\index{running\_icon@{running\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{running\_icon}{running\_icon}}
+{\footnotesize\ttfamily running\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a9a44f7e27d6b796ccd38dcf8e9469b5c}\label{classapp_1_1_d_t_g_app_a9a44f7e27d6b796ccd38dcf8e9469b5c} 
+\index{DTGApp@{DTGApp}!exited\_icon@{exited\_icon}}
+\index{exited\_icon@{exited\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{exited\_icon}{exited\_icon}}
+{\footnotesize\ttfamily exited\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_afdfb13bca546849ccf6fd9a0a444ee0a}\label{classapp_1_1_d_t_g_app_afdfb13bca546849ccf6fd9a0a444ee0a} 
+\index{DTGApp@{DTGApp}!other\_icon@{other\_icon}}
+\index{other\_icon@{other\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{other\_icon}{other\_icon}}
+{\footnotesize\ttfamily other\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a1f73069c71ffccf84365007f1f7d575b}\label{classapp_1_1_d_t_g_app_a1f73069c71ffccf84365007f1f7d575b} 
+\index{DTGApp@{DTGApp}!refresh\_icon@{refresh\_icon}}
+\index{refresh\_icon@{refresh\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{refresh\_icon}{refresh\_icon}}
+{\footnotesize\ttfamily refresh\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a5b2875de4cc051e1f6ee6bdaf62d74aa}\label{classapp_1_1_d_t_g_app_a5b2875de4cc051e1f6ee6bdaf62d74aa} 
+\index{DTGApp@{DTGApp}!start\_icon@{start\_icon}}
+\index{start\_icon@{start\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{start\_icon}{start\_icon}}
+{\footnotesize\ttfamily start\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a90e5acf75a68fcfb9e4ddc5a54752c31}\label{classapp_1_1_d_t_g_app_a90e5acf75a68fcfb9e4ddc5a54752c31} 
+\index{DTGApp@{DTGApp}!stop\_icon@{stop\_icon}}
+\index{stop\_icon@{stop\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{stop\_icon}{stop\_icon}}
+{\footnotesize\ttfamily stop\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a9c2396d9ab8256732b778d3cb0c36b43}\label{classapp_1_1_d_t_g_app_a9c2396d9ab8256732b778d3cb0c36b43} 
+\index{DTGApp@{DTGApp}!folder\_icon@{folder\_icon}}
+\index{folder\_icon@{folder\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{folder\_icon}{folder\_icon}}
+{\footnotesize\ttfamily folder\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_aeaf6fe9762b8c95026a79dfc4abb0d4d}\label{classapp_1_1_d_t_g_app_aeaf6fe9762b8c95026a79dfc4abb0d4d} 
+\index{DTGApp@{DTGApp}!open\_icon@{open\_icon}}
+\index{open\_icon@{open\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{open\_icon}{open\_icon}}
+{\footnotesize\ttfamily open\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_aa6686193eb2fb53af6b86e6e058d6bb9}\label{classapp_1_1_d_t_g_app_aa6686193eb2fb53af6b86e6e058d6bb9} 
+\index{DTGApp@{DTGApp}!exit\_icon@{exit\_icon}}
+\index{exit\_icon@{exit\_icon}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{exit\_icon}{exit\_icon}}
+{\footnotesize\ttfamily exit\+\_\+icon}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a5a30158e8135a44474e5fa03d461dca5}\label{classapp_1_1_d_t_g_app_a5a30158e8135a44474e5fa03d461dca5} 
+\index{DTGApp@{DTGApp}!main\_window@{main\_window}}
+\index{main\_window@{main\_window}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{main\_window}{main\_window}}
+{\footnotesize\ttfamily main\+\_\+window}
+
+\Hypertarget{classapp_1_1_d_t_g_app_a1ed3c017ad9bd76018df7902db103a25}\label{classapp_1_1_d_t_g_app_a1ed3c017ad9bd76018df7902db103a25} 
+\index{DTGApp@{DTGApp}!on\_main\_window\_close@{on\_main\_window\_close}}
+\index{on\_main\_window\_close@{on\_main\_window\_close}!DTGApp@{DTGApp}}
+\doxysubsubsection{\texorpdfstring{on\_main\_window\_close}{on\_main\_window\_close}}
+{\footnotesize\ttfamily on\+\_\+main\+\_\+window\+\_\+close}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{app_8py}{app.\+py}}\end{DoxyCompactItemize}

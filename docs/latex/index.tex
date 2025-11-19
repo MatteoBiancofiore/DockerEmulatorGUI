@@ -1,0 +1,205 @@
+\chapter{DTG (DTN Testbed GUI)}
+\hypertarget{index}{}\label{index}\index{DTG (DTN Testbed GUI)@{DTG (DTN Testbed GUI)}}
+\label{index_md__r_e_a_d_m_e}%
+\Hypertarget{index_md__r_e_a_d_m_e}%
+Lightweight Python-\/based GUI for configuring network channel emulators (using tc qdisc) and simplify the management of Docker containers on the host machine. It aims to enhance {\bfseries{transparency}} and reduce the complexity of command-\/line configuration.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md2}{}\doxysection{\texorpdfstring{Main Features}{Main Features}}\label{index_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Start or stop containers on the host machine.
+\item Select a container and modify the parameters of its channel emulator using {\ttfamily tc qdisc} command.
+\item Perform connectivity tests using the integrated {\ttfamily ping} command.
+\item Open a terminal collected to the specified node, (intended for low-\/level management purposes only)
+\item Simple and intuitive interface, designed to be easy to use.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md4}{}\doxysection{\texorpdfstring{File Structure}{File Structure}}\label{index_autotoc_md4}
+
+\begin{DoxyItemize}
+\item {\ttfamily \doxylink{main_8py}{main.\+py}} → main file to start the app.
+\item {\ttfamily \doxylink{app_8py}{app.\+py}} → brain of GUI\+: handle life cycle and app state
+\item {\ttfamily core/} → core logic of the application
+\item {\ttfamily gui/} → windows displayed to user ~\newline
+
+\item {\ttfamily utils/} → utility tools (like Operation\+Lock class)
+\item {\ttfamily images/} → folder containing images used by the GUI.
+\item {\ttfamily \doxylink{requirements_8txt}{requirements.\+txt}} → required python libraries
+\end{DoxyItemize}
+
+{\bfseries{Note\+:}} All folders (and files also) must be in the same directory as \doxylink{main_8py}{main.\+py}.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md6}{}\doxysection{\texorpdfstring{DTG -\/ Setup Guide}{DTG - Setup Guide}}\label{index_autotoc_md6}
+This guide covers the requirements and installation steps required to run DTG on Windows, mac\+OS and Debian/\+Ubuntu-\/based systems. It is also compatible with different Linux distros.
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md8}{}\doxysubsection{\texorpdfstring{System Requirements}{System Requirements}}\label{index_autotoc_md8}
+\hypertarget{index_autotoc_md9}{}\doxysubsubsection{\texorpdfstring{1. Docker}{1. Docker}}\label{index_autotoc_md9}
+
+\begin{DoxyItemize}
+\item Docker Engine
+\item Docker Compose plugin
+\end{DoxyItemize}\hypertarget{index_autotoc_md10}{}\doxysubsubsection{\texorpdfstring{2. Python}{2. Python}}\label{index_autotoc_md10}
+
+\begin{DoxyItemize}
+\item {\bfseries{python3}} — Python interpreter
+\item {\bfseries{python3-\/tk}} — For the graphical environment (Tkinter)
+\item {\bfseries{python3-\/pip}} — Tool to install Python libraries
+\end{DoxyItemize}\hypertarget{index_autotoc_md11}{}\doxysubsubsection{\texorpdfstring{3. Python Libraries}{3. Python Libraries}}\label{index_autotoc_md11}
+
+\begin{DoxyItemize}
+\item {\bfseries{docker}} — Communicates with Docker daemon
+\item {\bfseries{pillow}} — Loads icons for GUI
+\item {\bfseries{sv\+\_\+ttk}} — Provides prettier themes for Tkinter
+\end{DoxyItemize}\hypertarget{index_autotoc_md12}{}\doxysubsection{\texorpdfstring{Install Docker and Docker Compose}{Install Docker and Docker Compose}}\label{index_autotoc_md12}
+\begin{quote}
+{\bfseries{Note\+:}} Skip this passage if you have Docker \& Docker-\/compose installed \end{quote}
+\begin{quote}
+{\bfseries{Note\+:}} Docker Compose comes with Docker Desktop on Windows and Mac\+OS \end{quote}
+For this passage you can either follow the Docker\+\_\+\+Testbeds\+\_\+guide.\+pdf file in
+
+👉 \href{https://gitlab.com/unibo-dtn-docker-environment/DTN2hops}{\texttt{ https\+://gitlab.\+com/unibo-\/dtn-\/docker-\/environment/\+DTN2hops}}
+
+or, otherwise, follow the official guide for Docker
+
+👉 \href{https://docs.docker.com/desktop/}{\texttt{ https\+://docs.\+docker.\+com/desktop/}}
+
+and Docker Compose
+
+👉 \href{https://docs.docker.com/compose/install/}{\texttt{ https\+://docs.\+docker.\+com/compose/install/}}\hypertarget{index_autotoc_md13}{}\doxysection{\texorpdfstring{GUI installation}{GUI installation}}\label{index_autotoc_md13}
+\hypertarget{index_autotoc_md14}{}\doxysubsection{\texorpdfstring{Linux installation (\+Debian/\+Ubuntu-\/based)}{Linux installation (Debian/Ubuntu-based)}}\label{index_autotoc_md14}
+\begin{quote}
+{\bfseries{Note\+:}} Having Docker and Docker Compose installed (and running) is crucial for the GUI! \end{quote}
+\hypertarget{index_autotoc_md15}{}\doxysubsubsection{\texorpdfstring{Step 1\+: Install Python, tkinter, and pip}{Step 1: Install Python, tkinter, and pip}}\label{index_autotoc_md15}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Update\ repositories'\ dependancies\ and\ upgrade\ packages}
+\DoxyCodeLine{sudo\ apt\ update}
+\DoxyCodeLine{sudo\ apt\ upgrade\ -\/y\ \#\ -\/y\ to\ automatically\ say\ yes}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Install\ needed\ python\ packages}
+\DoxyCodeLine{sudo\ apt\ install\ python3\ python3-\/tk\ python3-\/pip}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md16}{}\doxysubsubsection{\texorpdfstring{Step 2\+: Install required libraries}{Step 2: Install required libraries}}\label{index_autotoc_md16}
+\begin{quote}
+{\bfseries{Note\+:}} From Ubuntu 22.\+04 python packages are managed externally by apt, this means you have to either install them globally or create a python venv. \end{quote}
+\hypertarget{index_autotoc_md17}{}\doxyparagraph{\texorpdfstring{Virtual environment}{Virtual environment}}\label{index_autotoc_md17}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ In\ the\ project's\ root\ folder\ (where\ main.py\ is)}
+\DoxyCodeLine{python3\ -\/m\ venv\ venv}
+\DoxyCodeLine{source\ venv/bin/activate}
+\DoxyCodeLine{pip\ install\ -\/r\ requirements.txt}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md18}{}\doxyparagraph{\texorpdfstring{Global installation}{Global installation}}\label{index_autotoc_md18}
+\begin{quote}
+{\bfseries{Note\+:}} sv\+\_\+ttk is a library for style. Its not included in apt packages and can only be installed with pip! \end{quote}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ global\ installation\ using\ apt}
+\DoxyCodeLine{sudo\ apt\ install\ python3-\/docker}
+\DoxyCodeLine{sudo\ apt\ install\ python3-\/pil}
+\DoxyCodeLine{sudo\ apt\ install\ python3-\/pil.imagetk}
+\DoxyCodeLine{pip3\ install\ sv\_ttk\ -\/-\/break-\/system-\/packages\ \ \ \ \ \#\ this\ may\ sound\ scary\ but\ this\ just\ ignores\ the\ protection\ and\ install\ this\ library\ into\ system's\ python}
+
+\end{DoxyCode}
+ \hypertarget{index_autotoc_md19}{}\doxysubsubsection{\texorpdfstring{Step 3\+: Give the user the permission needed for Docker}{Step 3: Give the user the permission needed for Docker}}\label{index_autotoc_md19}
+In order to connect with Docker, the user must have the proper permissions\+: running the GUI with {\ttfamily sudo} does not work, because the user must be in the \textquotesingle{}{\ttfamily docker}\textquotesingle{} group to allow a proper connection to the Docker daemon.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Add\ \$USER\ to\ group\ docker}
+\DoxyCodeLine{sudo\ usermod\ -\/aG\ docker\ \$USER}
+
+\end{DoxyCode}
+
+
+{\ttfamily IMPORTANT} You must {\bfseries{reboot your pc}} in order to make this change permanent.
+
+After this, you can use docker cmds without root permissions, try\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{docker\ ps}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md21}{}\doxysubsection{\texorpdfstring{Windows Installation}{Windows Installation}}\label{index_autotoc_md21}
+\hypertarget{index_autotoc_md22}{}\doxysubsubsection{\texorpdfstring{Step 1\+: Download Python}{Step 1: Download Python}}\label{index_autotoc_md22}
+Go to the Python official website\+: 👉 \href{https://www.python.org/downloads/windows/}{\texttt{ https\+://www.\+python.\+org/downloads/windows/}} and download latest version, Windows Installer(64 bit)\hypertarget{index_autotoc_md23}{}\doxysubsubsection{\texorpdfstring{Step 2\+: Install Python, tkinter and pip should be included}{Step 2: Install Python, tkinter and pip should be included}}\label{index_autotoc_md23}
+
+\begin{DoxyEnumerate}
+\item Open {\ttfamily python-\/xx.\+exe}
+\item {\ttfamily IMPORTANT}\uline{Make sure to check “\+Add Python to PATH” during installation}
+\item Follow displayed instructions
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md24}{}\doxysubsubsection{\texorpdfstring{Step 3\+: Verify Python Installation}{Step 3: Verify Python Installation}}\label{index_autotoc_md24}
+Open Power\+Shell or Command Prompt and type\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ -\/-\/version}
+\DoxyCodeLine{pip\ -\/-\/version}
+
+\end{DoxyCode}
+ You should see version numbers for both commands if the installation was successful.
+
+If for some reason pip is not installed run\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python\ -\/m\ ensurepip\ -\/-\/upgrade}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md25}{}\doxysubsubsection{\texorpdfstring{Step 4\+: Install required libraries}{Step 4: Install required libraries}}\label{index_autotoc_md25}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ In\ the\ project's\ root\ folder\ (where\ main.py\ is)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Install\ requirements}
+\DoxyCodeLine{pip3\ install\ -\/r\ requirements.txt}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md26}{}\doxysubsection{\texorpdfstring{Mac\+OS installation}{MacOS installation}}\label{index_autotoc_md26}
+\hypertarget{index_autotoc_md27}{}\doxysubsubsection{\texorpdfstring{Step 1\+: Download and install python}{Step 1: Download and install python}}\label{index_autotoc_md27}
+Download Python 3 from 👉 \href{https://www.python.org/downloads/macos/}{\texttt{ https\+://www.\+python.\+org/downloads/macos/}} or install via Homebrew\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{brew\ install\ python3-\/tk@3.14}
+
+\end{DoxyCode}
+
+
+Tkinter – Included with Python 3 (verify with python3 -\/m tkinter --version).
+
+pip – Included with Python 3 (verify with python3 -\/m pip --version).
+
+Python Libraries – Install the required dependencies\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pip3\ install\ -\/r\ requirements.txt}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md28}{}\doxysection{\texorpdfstring{Running the GUI}{Running the GUI}}\label{index_autotoc_md28}
+Once the environment is ready\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ In\ the\ project's\ root\ folder\ (where\ main.py\ is)}
+\DoxyCodeLine{python\ main.py}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md29}{}\doxysubsubsection{\texorpdfstring{Linux}{Linux}}\label{index_autotoc_md29}
+\begin{quote}
+{\bfseries{Note\+:}} On Linux command is {\ttfamily python3}, furthermore if you created a venv during installation phase you have to activate it everytime you want to run the GUI. \end{quote}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ In\ the\ project's\ root\ folder\ (where\ main.py\ is)}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ activate\ virtual\ env}
+\DoxyCodeLine{source\ venv/bin/activate}
+\DoxyCodeLine{python3\ main.py}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ when\ you\ are\ done,\ deactivate\ venv}
+\DoxyCodeLine{deactivate}
+
+\end{DoxyCode}
+ 

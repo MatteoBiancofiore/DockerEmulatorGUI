@@ -1,0 +1,65 @@
+\doxysection{startup\+\_\+window Namespace Reference}
+\hypertarget{namespacestartup__window}{}\label{namespacestartup__window}\index{startup\_window@{startup\_window}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacestartup__window_a9a415d8aabab303217c86e299f1d42d6}{choose\+\_\+project\+\_\+popup}} (parent, icons)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}\file gui/startup_window.py
+
+\brief The startup window for DTG application. Used to choose or create a Docker Compose project.
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+    
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacestartup__window_a9a415d8aabab303217c86e299f1d42d6}\label{namespacestartup__window_a9a415d8aabab303217c86e299f1d42d6} 
+\index{startup\_window@{startup\_window}!choose\_project\_popup@{choose\_project\_popup}}
+\index{choose\_project\_popup@{choose\_project\_popup}!startup\_window@{startup\_window}}
+\doxysubsubsection{\texorpdfstring{choose\_project\_popup()}{choose\_project\_popup()}}
+{\footnotesize\ttfamily choose\+\_\+project\+\_\+popup (\begin{DoxyParamCaption}\item[{}]{parent,  }\item[{}]{icons }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}    \brief Popup window to choose or create a Docker Compose project.
+
+    This fucntion creates a popup window that allows the user to either select an existing
+    Docker Compose project from a list of recent projects or browse the filesystem to select a
+    new Docker Compose YAML file.
+
+    \param parent The parent tkinter window.
+    \param icons A dictionary containing icons for buttons.
+
+    \return The path to the selected Docker Compose project file, or None if the user exits.\end{DoxyVerb}
+ 

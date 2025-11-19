@@ -166,12 +166,15 @@ def open_terminal(container_name: str):
             if path:
                 
                 if term == "terminator":
-                    terminal_cmd = [path, "--title", title, "-x", f"bash -c '{docker_cmd}'"]
+                    terminal_cmd = [path, "--title", title, "--command", f"{docker_cmd}"]
 
                 elif term == "gnome-terminal":
                     terminal_cmd = [path, "--wait", "--title", title, "--", "bash", "-c", docker_cmd]
 
-                elif term in ("konsole", "xfce4-terminal", "mate-terminal"):
+                elif term == "konsole":
+                    terminal_cmd = [path, "-p", f"tabtitle={title}", "-e", f"bash -c '{docker_cmd}'"]
+
+                elif term in ("xfce4-terminal", "mate-terminal"):
                     terminal_cmd = [path, "--title", title, "-e", f"bash -c '{docker_cmd}'"]
 
                 elif term == "lxterminal":
@@ -181,6 +184,7 @@ def open_terminal(container_name: str):
                     terminal_cmd = [path, "-e", f"bash -c '{docker_cmd}'"]
                     
                 found_term = True
+                print(f"Debug:\nTerminal used: {term}\n Path: {path}\n Command: {terminal_cmd}")
                 break
         
         if not found_term:

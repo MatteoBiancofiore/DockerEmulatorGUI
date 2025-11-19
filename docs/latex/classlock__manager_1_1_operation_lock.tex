@@ -1,0 +1,79 @@
+\doxysection{Operation\+Lock Class Reference}
+\hypertarget{classlock__manager_1_1_operation_lock}{}\label{classlock__manager_1_1_operation_lock}\index{OperationLock@{OperationLock}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlock__manager_1_1_operation_lock_abdd362d5f799ad16b5d6700efe590290}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classlock__manager_1_1_operation_lock_ac642e2d7cc751907a1204ea9289481aa}{lock}} (self, container\+\_\+id, op)
+\item 
+\mbox{\hyperlink{classlock__manager_1_1_operation_lock_ae13132242a1838a8369a6c4782d6642a}{unlock}} (self, container\+\_\+id)
+\item 
+\mbox{\hyperlink{classlock__manager_1_1_operation_lock_af338aff83ad8a8284fef514da06e7ac2}{is\+\_\+locked}} (self, container\+\_\+id)
+\item 
+\mbox{\hyperlink{classlock__manager_1_1_operation_lock_acf0381bce7bd7a444c776299b3995709}{has\+\_\+active\+\_\+locks}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlock__manager_1_1_operation_lock_a94d81925dd1b489031708b4e86c7416d}{\+\_\+locks}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}\brief Manager used to handle concurrency and operation locks on containers
+
+The OperationLock prevents race conditions and conflictual action on containers
+by ensuring that only one operation (start, stop, restart) can be performed 
+at a time on a specific container.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classlock__manager_1_1_operation_lock_abdd362d5f799ad16b5d6700efe590290}\label{classlock__manager_1_1_operation_lock_abdd362d5f799ad16b5d6700efe590290} 
+\index{OperationLock@{OperationLock}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!OperationLock@{OperationLock}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classlock__manager_1_1_operation_lock_ac642e2d7cc751907a1204ea9289481aa}\label{classlock__manager_1_1_operation_lock_ac642e2d7cc751907a1204ea9289481aa} 
+\index{OperationLock@{OperationLock}!lock@{lock}}
+\index{lock@{lock}!OperationLock@{OperationLock}}
+\doxysubsubsection{\texorpdfstring{lock()}{lock()}}
+{\footnotesize\ttfamily lock (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{container\+\_\+id,  }\item[{}]{op }\end{DoxyParamCaption})}
+
+\Hypertarget{classlock__manager_1_1_operation_lock_ae13132242a1838a8369a6c4782d6642a}\label{classlock__manager_1_1_operation_lock_ae13132242a1838a8369a6c4782d6642a} 
+\index{OperationLock@{OperationLock}!unlock@{unlock}}
+\index{unlock@{unlock}!OperationLock@{OperationLock}}
+\doxysubsubsection{\texorpdfstring{unlock()}{unlock()}}
+{\footnotesize\ttfamily unlock (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\Hypertarget{classlock__manager_1_1_operation_lock_af338aff83ad8a8284fef514da06e7ac2}\label{classlock__manager_1_1_operation_lock_af338aff83ad8a8284fef514da06e7ac2} 
+\index{OperationLock@{OperationLock}!is\_locked@{is\_locked}}
+\index{is\_locked@{is\_locked}!OperationLock@{OperationLock}}
+\doxysubsubsection{\texorpdfstring{is\_locked()}{is\_locked()}}
+{\footnotesize\ttfamily is\+\_\+locked (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{container\+\_\+id }\end{DoxyParamCaption})}
+
+\Hypertarget{classlock__manager_1_1_operation_lock_acf0381bce7bd7a444c776299b3995709}\label{classlock__manager_1_1_operation_lock_acf0381bce7bd7a444c776299b3995709} 
+\index{OperationLock@{OperationLock}!has\_active\_locks@{has\_active\_locks}}
+\index{has\_active\_locks@{has\_active\_locks}!OperationLock@{OperationLock}}
+\doxysubsubsection{\texorpdfstring{has\_active\_locks()}{has\_active\_locks()}}
+{\footnotesize\ttfamily has\+\_\+active\+\_\+locks (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classlock__manager_1_1_operation_lock_a94d81925dd1b489031708b4e86c7416d}\label{classlock__manager_1_1_operation_lock_a94d81925dd1b489031708b4e86c7416d} 
+\index{OperationLock@{OperationLock}!\_locks@{\_locks}}
+\index{\_locks@{\_locks}!OperationLock@{OperationLock}}
+\doxysubsubsection{\texorpdfstring{\_locks}{\_locks}}
+{\footnotesize\ttfamily \+\_\+locks\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+utils/\mbox{\hyperlink{lock__manager_8py}{lock\+\_\+manager.\+py}}\end{DoxyCompactItemize}

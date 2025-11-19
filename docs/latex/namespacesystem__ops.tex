@@ -1,0 +1,95 @@
+\doxysection{system\+\_\+ops Namespace Reference}
+\hypertarget{namespacesystem__ops}{}\label{namespacesystem__ops}\index{system\_ops@{system\_ops}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classsystem__ops_1_1_compose_not_found_error}{Compose\+Not\+Found\+Error}}
+\item 
+class \mbox{\hyperlink{classsystem__ops_1_1_docker_compose_error}{Docker\+Compose\+Error}}
+\item 
+class \mbox{\hyperlink{classsystem__ops_1_1_terminal_error}{Terminal\+Error}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacesystem__ops_a49134d2d1791f2e8c2302bdfce703965}{exec\+\_\+compose}} (compose\+\_\+file)
+\item 
+\mbox{\hyperlink{namespacesystem__ops_a2457b0bc87f74c67cf0453dd93b4345e}{open\+\_\+terminal}} (str container\+\_\+name)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}\file core/system_ops.py
+
+\brief Implementation of system operations for Docker Compose and terminal management.
+
+\copyright Copyright (c) 2025, Alma Mater Studiorum, University of Bologna, All rights reserved.
+    
+\par License
+
+    This file is part of DTG (DTN Testbed GUI).
+
+    DTG is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    
+    DTG is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    
+    You should have received a copy of the GNU General Public License
+    along with DTG.  If not, see <http://www.gnu.org/licenses/>.
+
+\author Matteo Biancofiore <matteo.biancofiore2@studio.unibo.it>
+\date 13/11/2025
+
+\par Supervisor
+   Carlo Caini <carlo.caini@unibo.it>
+
+
+\par Revision History:
+| Date       |  Author         |   Description
+| ---------- | --------------- | -----------------------------------------------
+| 13/11/2025 | M. Biancofiore  |  Initial implementation for DTG project.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacesystem__ops_a49134d2d1791f2e8c2302bdfce703965}\label{namespacesystem__ops_a49134d2d1791f2e8c2302bdfce703965} 
+\index{system\_ops@{system\_ops}!exec\_compose@{exec\_compose}}
+\index{exec\_compose@{exec\_compose}!system\_ops@{system\_ops}}
+\doxysubsubsection{\texorpdfstring{exec\_compose()}{exec\_compose()}}
+{\footnotesize\ttfamily exec\+\_\+compose (\begin{DoxyParamCaption}\item[{}]{compose\+\_\+file }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Execute Docker Compose command to start the environment
+
+This fuction search for the version of Docker Compose installed on your system and
+execute the precise command with '-d' flag (detatched), containers will run in background.
+
+\param compose_file (Path or str) Absolute path to .yml/.yaml file.
+
+\return (list) List of argument of cmd (e.g. `['docker', 'compose', ...]`).
+
+\throws ComposeNotFoundError If Docker Compose is not installed.
+\throws DockerComposeError If errors occurs (e.g. invalid file, docker image not found)
+\end{DoxyVerb}
+ \Hypertarget{namespacesystem__ops_a2457b0bc87f74c67cf0453dd93b4345e}\label{namespacesystem__ops_a2457b0bc87f74c67cf0453dd93b4345e} 
+\index{system\_ops@{system\_ops}!open\_terminal@{open\_terminal}}
+\index{open\_terminal@{open\_terminal}!system\_ops@{system\_ops}}
+\doxysubsubsection{\texorpdfstring{open\_terminal()}{open\_terminal()}}
+{\footnotesize\ttfamily open\+\_\+terminal (\begin{DoxyParamCaption}\item[{str}]{container\+\_\+name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}\brief Opens a terminal attached to the specified container
+
+This fuction detects the host OS (via 'platform' module) and attemps
+to launch a shell session using the first terminal found on the system.   
+
+\param container_name (str) The name of the Docker container
+
+\return (subprocess.Popen) The process object opened, used for tracking
+
+\throws TerminalError If no compatible terminal emulator is found.
+\end{DoxyVerb}
+ 
